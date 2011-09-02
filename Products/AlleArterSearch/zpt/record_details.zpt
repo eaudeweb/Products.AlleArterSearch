@@ -1,0 +1,11 @@
+<tal:block define="record python: here.get_record_details(request.get('id'))">
+  <table tal:condition="record">
+    <tr>
+      <td>
+        <span class="record_details">
+          <strong i18n:translate="">Videnskabeligt_navn</strong>
+          <span tal:content="record/Videnskabeligt_navn" />
+        </span>
+    </tr>
+  </table>
+</tal:block>

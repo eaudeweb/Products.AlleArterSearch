@@ -1,0 +1,90 @@
+<tal:block metal:define-macro="page">
+<tal:block define="Artsgruppe request/Artsgruppe | string:*;
+                    Rige request/Rige | string:*;
+                    Raekke request/Raekke | string:*;
+                    Orden request/Orden | string:*;
+                    Familie request/Familie | string:*;
+                    Den_danske_rodliste request/Den_danske_rodliste | string:;
+                    lang request/lang | string:en">
+
+<div class="left_portlet_title">
+    <tal:block condition="request/search | nothing">refine</tal:block> search
+
+    <a id="ctlChangeLanguage"
+       tal:attributes="href string:${here/absolute_url}?lang=dk"
+       tal:condition="python:lang == 'en'">in english</a>
+
+    <a id="ctlChangeLanguage"
+       tal:attributes="href string:${here/absolute_url}?lang=en"
+       tal:condition="python:lang != 'en'">in danish</a>
+</div>
+
+<div class="left_portlet_content">
+
+    <form action="" name="frmSearch" method="get" id="frmSearch">
+        <div class="field">
+            <label for="ctlArtsgruppe">Artsgruppe</label>
+            <select name="Artsgruppe" class="search_box" id="ctlArtsgruppe">
+                <option value="*">-all-</option>
+                <option tal:repeat="record python:here.get_field_results(query='*', entity_type='Artsgruppe', lang=lang)"
+                        tal:attributes="value record; selected python:record == Artsgruppe;"
+                        tal:content="record" />
+            </select>
+        </div>
+        <hr />
+        <div class="field">
+            <label for="ctlRige">Rige</label>
+            <select name="Rige" class="search_box" id="ctlRige">
+                <option value="*">-all-</option>
+                <option tal:repeat="record python:here.get_field_results(query='*', entity_type='Rige', lang=lang)"
+                        tal:attributes="value record; selected python:record == Rige;"
+                        tal:content="record" />
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="ctlRaekke">R&aelig;kke</label>
+            <select name="Raekke" class="search_box" id="ctlRaekke">
+                <option value="*">-all-</option>
+                <option tal:repeat="record python:here.get_field_results(query=Rige, entity_type='Raekke', query_field='Rige', lang=lang)"
+                        tal:attributes="value record; selected python:record == Raekke;"
+                        tal:content="record" />
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="ctlOrden">Orden</label>
+            <select name="Orden" class="search_box" id="ctlOrden">
+                <option value="*">-all-</option>
+                <option tal:repeat="record python:here.get_field_results(query=Raekke, entity_type='Orden', query_field='Raekke', lang=lang)"
+                        tal:attributes="value record; selected python:record == Orden;"
+                        tal:content="record" />
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="ctlFamilie">Familie</label>
+            <select name="Familie" class="search_box" id="ctlFamilie">
+                <option value="*">-all-</option>
+                <option tal:repeat="record python:here.get_field_results(query=Orden, entity_type='Familie', query_field='Orden', lang=lang)"
+                        tal:attributes="value record; selected python:record == Familie;"
+                        tal:content="record" />
+            </select>
+        </div>
+
+        <div class="field-inline">
+            <input type="checkbox" name="Den_danske_rodliste" id="ctlDen_danske_rodliste"
+                   tal:attributes="checked Den_danske_rodliste" />
+            <label for="ctlDen_danske_rodliste">display only redlisted</label>
+        </div>
+
+        <div class="field">
+            <input type="hidden" name="lang" id="ctlLang" tal:attributes="value lang" />
+            <input type="submit" name="search" value="Search" />
+            <a tal:attributes="href here/absolute_url">Clear</a>
+        </div>
+    </form>
+</div>
+
+</tal:block>
+</tal:block>

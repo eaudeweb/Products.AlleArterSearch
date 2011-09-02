@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataConfig>
+    <dataSource type="JdbcDataSource"
+                  driver="com.mysql.jdbc.Driver"
+                  url="jdbc:mysql://localhost/alle_arter" batchSize="-1"
+                  user="repo"
+                  password="repo"/>
+
+    <document name="records">
+        <entity name="record"
+                query="SELECT id,
+                        'records' as entity_type,
+                        Artsgruppe,
+                        Artsgruppe_dk,
+                        Videnskabeligt_navn,
+                        Autor,
+                        Dansk_navn,
+                        Taxontype,
+                        Sortering,
+                        Rige,
+                        Rige_dk,
+                        Række as Raekke,
+                        Række_dk as Raekke_dk,
+                        Underrække as Underraekke,
+                        Underrække_dk as Underraekke_dk,
+                        Overklasse,
+                        Overklasse_dk,
+                        Klasse,
+                        Klasse_dk,
+                        Underklasse,
+                        Underklasse_dk,
+                        Infraklasse,
+                        Infraklasse_dk,
+                        Overorden,
+                        Overorden_dk,
+                        Orden,
+                        Orden_dk,
+                        Underorden,
+                        Underorden_dk,
+                        Infraorden,
+                        Infraorden_dk,
+                        Overfamilie,
+                        Overfamilie_dk,
+                        Familie,
+                        Familie_dk,
+                        Underfamilie,
+                        Underfamilie_dk,
+                        Tribus,
+                        Tribus_dk,
+                        Synonymer,
+                        Synonymer_dk,
+                        Referencenavn,
+                        Referenceår as Referencear,
+                        Referencetekst,
+                        Noter_systematik,
+                        Noter_forekomst,
+                        Noter_økologi as Noter_okologi,
+                        Noter_status,
+                        Dato,
+                        Den_danske_rødliste as Den_danske_rodliste,
+                        Fredede_arter,
+                        `EF-habitatdirektivet`,
+                        `EF-fuglebeskyttelsesdirektivet`,
+                        `Bern-konventionen`,
+                        `Bonn-konventionen`,
+                        Øvrige as Ovrige,
+                        CITES,
+                        NOBANIS,
+                        NOBANIS_herkomst,
+                        NOBANIS_etableringsstatus,
+                        NOBANIS_invasiv_optræden as NOBANIS_invasiv_optraeden
+                        FROM alle_arter">
+            <field column="Artsgruppe" name="Artsgruppe" />
+            <field column="Artsgruppe_dk" name="Artsgruppe_dk" />
+            <field column="Videnskabeligt_navn" name="Videnskabeligt_navn" />
+            <field column="Autor" name="Autor" />
+            <field column="Dansk_navn" name="Dansk_navn" />
+            <field column="Taxontype" name="Taxontype" />
+            <field column="Sortering" name="Sortering" />
+            <field column="Rige" name="Rige" />
+            <field column="Rige_dk" name="Rige_dk" />
+            <field column="Raekke" name="Raekke" />
+            <field column="Raekke_dk" name="Raekke_dk" />
+            <field column="Underraekke" name="Underraekke" />
+            <field column="Underraekke_dk" name="Underraekke_dk" />
+            <field column="Overklasse" name="Overklasse" />
+            <field column="Overklasse_dk" name="Overklasse_dk" />
+            <field column="Klasse" name="Klasse" />
+            <field column="Klasse_dk" name="Klasse_dk" />
+            <field column="Underklasse" name="Underklasse" />
+            <field column="Underklasse_dk" name="Underklasse_dk" />
+            <field column="Infraklasse" name="Infraklasse" />
+            <field column="Infraklasse_dk" name="Infraklasse_dk" />
+            <field column="Overorden" name="Overorden" />
+            <field column="Overorden_dk" name="Overorden_dk" />
+            <field column="Orden" name="Orden" />
+            <field column="Orden_dk" name="Orden_dk" />
+            <field column="Underorden" name="Underorden" />
+            <field column="Underorden_dk" name="Underorden_dk" />
+            <field column="Infraorden" name="Infraorden" />
+            <field column="Infraorden_dk" name="Infraorden_dk" />
+            <field column="Overfamilie" name="Overfamilie" />
+            <field column="Overfamilie_dk" name="Overfamilie_dk" />
+            <field column="Familie" name="Familie" />
+            <field column="Familie_dk" name="Familie_dk" />
+            <field column="Underfamilie" name="Underfamilie" />
+            <field column="Underfamilie_dk" name="Underfamilie_dk" />
+            <field column="Tribus" name="Tribus" />
+            <field column="Tribus_dk" name="Tribus_dk" />
+            <field column="Synonymer" name="Synonymer" />
+            <field column="Synonymer_dk" name="Synonymer_dk" />
+            <field column="Referencenavn" name="Referencenavn" />
+            <field column="Referencear" name="Referencear" />
+            <field column="Referencetekst" name="Referencetekst" />
+            <field column="Noter_systematik" name="Noter_systematik" />
+            <field column="Noter_forekomst" name="Noter_forekomst" />
+            <field column="Noter_okologi" name="Noter_okologi" />
+            <field column="Noter_status" name="Noter_status" />
+            <field column="Dato" name="Dato" dateTimeFormat="yyyy-MM-dd" />
+            <field column="Den_danske_rodliste" name="Den_danske_rodliste" />
+            <field column="Fredede_arter" name="Fredede_arter" />
+            <field column="EF-habitatdirektivet" name="EF-habitatdirektivet" />
+            <field column="EF-fuglebeskyttelsesdirektivet" name="EF-fuglebeskyttelsesdirektivet" />
+            <field column="Bern-konventionen" name="Bern-konventionen" />
+            <field column="Bonn-konventionen" name="Bonn-konventionen" />
+            <field column="Ovrige" name="Ovrige" />
+            <field column="CITES" name="CITES" />
+            <field column="NOBANIS" name="NOBANIS" />
+            <field column="NOBANIS_herkomst" name="NOBANIS_herkomst" />
+            <field column="NOBANIS_etableringsstatus" name="NOBANIS_etableringsstatus" />
+            <field column="NOBANIS_invasiv_optraeden" name="NOBANIS_invasiv_optraeden" />
+            <field column="entity_type" name="entity_type" />
+        </entity>
+        <entity name="artsgruppe"
+                query="SELECT CONCAT('artsgruppe-', id) AS id,
+                           'Artsgruppe' as entity_type,
+                           Artsgruppe,
+                           Artsgruppe_dk
+                       FROM alle_arter
+                       GROUP BY Artsgruppe">
+            <field column="Artsgruppe" name="Artsgruppe" />
+            <field column="Artsgruppe_dk" name="Artsgruppe_dk" />
+            <field column="entity_type" name="entity_type" />
+        </entity>
+        <entity name="rige"
+                query="SELECT CONCAT('rige-', id) AS id,
+                           'Rige' as entity_type,
+                           Rige,
+                           Rige_dk
+                       FROM alle_arter
+                       GROUP BY Rige">
+            <field column="Rige" name="Rige" />
+            <field column="Rige_dk" name="Rige_dk" />
+            <field column="entity_type" name="entity_type" />
+        </entity>
+        <entity name="raekke"
+                query="SELECT CONCAT('raekke-', id) AS id,
+                           'Raekke' as entity_type,
+                           Rige,
+                           Rige_dk,
+                           Række as Raekke,
+                           Række_dk as Raekke_dk
+                       FROM alle_arter
+                       GROUP BY Raekke">
+            <field column="Rige" name="Rige" />
+            <field column="Rige_dk" name="Rige_dk" />
+            <field column="Raekke" name="Raekke" />
+            <field column="Raekke_dk" name="Raekke_dk" />
+            <field column="entity_type" name="entity_type" />
+        </entity>
+        <entity name="orden"
+                query="SELECT CONCAT('orden-', id) AS id,
+                           'Orden' as entity_type,
+                           Rige,
+                           Rige_dk,
+                           Række as Raekke,
+                           Række_dk as Raekke_dk,
+                           Orden,
+                           Orden_dk
+                       FROM alle_arter
+                       GROUP BY Orden">
+            <field column="Rige" name="Rige" />
+            <field column="Rige_dk" name="Rige_dk" />
+            <field column="Raekke" name="Raekke" />
+            <field column="Raekke_dk" name="Raekke_dk" />
+            <field column="Orden" name="Orden" />
+            <field column="Orden_dk" name="Orden_dk" />
+            <field column="entity_type" name="entity_type" />
+        </entity>
+        <entity name="familie"
+                query="SELECT CONCAT('familie-', alle_arter.id) AS id,
+                           'Familie' as entity_type,
+                           'Orden' as entity_type,
+                           Rige,
+                           Rige_dk,
+                           Række as Raekke,
+                           Række_dk as Raekke_dk,
+                           Orden,
+                           Orden_dk,
+                           Familie,
+                           Familie_dk
+                       FROM alle_arter
+                       GROUP BY Familie">
+            <field column="Rige" name="Rige" />
+            <field column="Rige_dk" name="Rige_dk" />
+            <field column="Raekke" name="Raekke" />
+            <field column="Raekke_dk" name="Raekke_dk" />
+            <field column="Orden" name="Orden" />
+            <field column="Orden_dk" name="Orden_dk" />
+            <field column="Familie" name="Familie" />
+            <field column="Familie_dk" name="Familie_dk" />
+            <field column="entity_type" name="entity_type" />
+        </entity>
+    </document>
+</dataConfig>

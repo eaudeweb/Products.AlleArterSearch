@@ -1,0 +1,128 @@
+<tal:block metal:define-macro="page">
+<tal:block define="Artsgruppe request/Artsgruppe | string:*;
+                    Rige request/Rige | string:*;
+                    Raekke request/Raekke | string:*;
+                    Orden request/Orden | string:*;
+                    Familie request/Familie | string:*;
+                    Videnskabeligt_navn request/Videnskabeligt_navn | string:*;
+                    Den_danske_rodliste request/Den_danske_rodliste | string:;
+                    sort request/sort|string:Artsgruppe asc;
+                    page python:request.get('page', '1');
+                    records options/records;
+                    fake_records options/fake_records;
+                    url python:here.get_url(request);
+                    lang request/lang | string:en">
+
+<h1 i18n:translate="">
+    Search database (<span tal:replace="python:len(fake_records)" /> records found)
+</h1>
+<table class="datatable search-results-table" tal:condition="records">
+    <thead>
+        <tr>
+            <th>
+              <tal:block condition="python:sort=='Artsgruppe asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Artsgruppe desc">Artsgruppe</a>
+                <img src="misc_/Naaya/sort_asc.gif"/>
+              </tal:block>
+              <tal:block condition="python:sort!='Artsgruppe asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Artsgruppe asc">Artsgruppe</a>
+                <img src="misc_/Naaya/sort_desc.gif"/>
+              </tal:block>
+            </th>
+            <th>
+              <tal:block condition="python:sort=='Klasse asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Klasse desc">Klasse</a>
+                <img src="misc_/Naaya/sort_asc.gif"/>
+              </tal:block>
+              <tal:block condition="python:sort!='Klasse asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Klasse asc">Klasse</a>
+                <img src="misc_/Naaya/sort_desc.gif"/>
+              </tal:block>
+            </th>
+            <th>
+              <tal:block condition="python:sort=='Orden asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Orden desc">Orden</a>
+                <img src="misc_/Naaya/sort_asc.gif"/>
+              </tal:block>
+              <tal:block condition="python:sort!='Orden asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Orden asc">Orden</a>
+                <img src="misc_/Naaya/sort_desc.gif"/>
+              </tal:block>
+            </th>
+            <th>
+              <tal:block condition="python:sort=='Familie asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Familie desc">Familie</a>
+                <img src="misc_/Naaya/sort_asc.gif"/>
+              </tal:block>
+              <tal:block condition="python:sort!='Familie asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Familie asc">Familie</a>
+                <img src="misc_/Naaya/sort_desc.gif"/>
+              </tal:block>
+            </th>
+            <th>
+              <tal:block condition="python:sort=='Videnskabeligt_navn asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Videnskabeligt_navn desc">Videnskabeligt_navn</a>
+                <img src="misc_/Naaya/sort_asc.gif"/>
+              </tal:block>
+              <tal:block condition="python:sort!='Videnskabeligt_navn asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Videnskabeligt_navn asc">Videnskabeligt_navn</a>
+                <img src="misc_/Naaya/sort_desc.gif"/>
+              </tal:block>
+            </th>
+            <th>
+              <tal:block condition="python:sort=='Autor asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Autor desc">Autor</a>
+                <img src="misc_/Naaya/sort_asc.gif"/>
+              </tal:block>
+              <tal:block condition="python:sort!='Autor asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Autor asc">Autor</a>
+                <img src="misc_/Naaya/sort_desc.gif"/>
+              </tal:block>
+            </th>
+            <th>
+              <tal:block condition="python:sort=='Dansk_navn asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Dansk_navn desc">Dansk_navn</a>
+                <img src="misc_/Naaya/sort_asc.gif"/>
+              </tal:block>
+              <tal:block condition="python:sort!='Dansk_navn asc'">
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Dansk_navn asc">Dansk_navn</a>
+                <img src="misc_/Naaya/sort_desc.gif"/>
+              </tal:block>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tal:block repeat="record records">
+        <tr tal:attributes="class python:test(path('repeat/record/odd'), 'parent row-even', 'parent row-odd')">
+            <td>
+              <img src="misc_/AlleArterSearch/s.gif" alt="" title="" class="arrow arrow-normal"
+                   tal:attributes="onclick string:javascript:toggle('${repeat/record/index}');
+                                  id string:img_${repeat/record/index}"/>
+                <a tal:content="python:here.get_field(record, 'Artsgruppe', lang)" href="javascript:void(0);"
+                    tal:attributes="onclick string:javascript:toggle('${repeat/record/index}')"></a>
+            </td>
+            <td tal:content="python:here.get_field(record, 'Klasse', lang)" />
+            <td tal:content="python:here.get_field(record, 'Orden', lang)" />
+            <td tal:content="python:here.get_field(record, 'Familie', lang)" />
+            <td tal:content="record/Videnskabeligt_navn | nothing" />
+            <td tal:content="record/Autor | nothing" />
+            <td tal:content="record/Dansk_navn | nothing" />
+        </tr>
+        <tr tal:attributes="id string:rec_${repeat/record/index}" style="display:none" class="toggle_off">
+            <td colspan="7">
+                <div tal:attributes="id record/id"></div>
+            </td>
+        </tr>
+        </tal:block>
+    </tbody>
+</table>
+
+<tal:block define="paginator python:here.make_paginator(fake_records, here.items_per_page, body=5, padding=2, orphans=5);
+             page_obj python:paginator.page(page);
+             nopage_url string:${url}&sort=${sort};
+             make_url python:lambda page: '%s&amp;page=%s' % (nopage_url, page);">
+    <tal:block replace="structure python:page_obj.pagination(make_url=make_url)" />
+</tal:block>
+
+</tal:block>
+</tal:block>

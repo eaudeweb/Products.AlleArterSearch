@@ -1,0 +1,15 @@
+<html>
+	<head>
+		<title>Search AlleArter database</title>
+	</head>
+	<body>
+		<h1>Search AlleArter database</h1>
+		<form action="manage_add_search">
+			<div>
+				<label for="id">ID</label>
+				<input type="text" id="id" name="id" value="" />
+			</div>
+			<input type="submit" name="Create" value="Create" />
+		</form>
+	</body>
+</html>

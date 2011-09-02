@@ -1,0 +1,80 @@
+.search_box {
+    width: 185px;
+}
+
+img.arrow {
+  background: url('arrows.gif') no-repeat scroll 0 0;
+  width: 16px;
+  height: 18px;
+}
+
+img.arrow.arrow-normal {
+  background-position: 0 0;
+}
+
+
+img.arrow.arrow-normal:hover {
+  background-position: -32px 0;
+}
+
+img.arrow.arrow-down {
+  background-position: -16px 0;
+}
+
+img.arrow.arrow-down:hover {
+  background-position: -48px 0;
+}
+
+.search-results-table {
+  border-collapse: collapse !important;
+  border: 1px solid #BFBFBF !important;
+  width: 100%;
+}
+
+.search-results-table th {
+  font-size: 12px;
+  text-align: left !important;
+}
+
+.search-results-table th img{
+  vertical-align: middle;
+}
+
+.search-results-table tr.parent {
+  border-top: 1px solid #BFBFBF !important;
+}
+
+.search-results-table tr.parent.row-odd {
+  background-color: #F0F5FB !important;
+}
+
+.search-results-table tr td {
+  padding: 5px !important;
+  vertical-align: middle !important;
+  border: none !important;
+}
+
+.search-results-table tr td:last-child {
+  border: none !important;
+}
+
+.search-results-table tr.DigirParent:hover {
+  background-color: #F5F9ED;
+}
+
+span.record_details {
+  display: block;
+  color: #000000;
+  min-width: 300px;
+}
+
+#frmSearch hr {
+  background-color: #BACEE7;
+  border: none;
+  color: #BACEE7;
+}
+
+#ctlChangeLanguage {
+    color: #346D9F !important;
+    text-decoration: underline;
+}

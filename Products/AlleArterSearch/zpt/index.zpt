@@ -1,0 +1,32 @@
+<metal:block i18n:domain="portal_translations" metal:use-macro="here/standard_template_macro">
+
+<metal:block metal:fill-slot="title">
+        <title tal:content="string:${here/title} | ${here/site_title}" />
+</metal:block>
+
+<metal:block metal:fill-slot="head">
+    <link rel="stylesheet" type="text/css" media="screen" tal:attributes="href string:/misc_/AlleArterSearch/allearter_style.css" />
+    <script src="/misc_/AlleArterSearch/allearter.js"></script>
+</metal:block>
+
+
+<metal:block fill-slot="left-port">
+    <div id="left_port">
+        <div class="left_portlet">
+            <tal:block metal:use-macro="here/search_box/macros/page"></tal:block>
+        </div>
+    </div>
+</metal:block>
+
+<metal:block fill-slot="body">
+
+<div id="center_content">
+
+    <tal:block metal:use-macro="here/results_section/macros/page"></tal:block>
+
+</div>
+
+
+</metal:block>
+
+</metal:block>
