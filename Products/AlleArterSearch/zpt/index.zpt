@@ -11,10 +11,8 @@
 
 
 <metal:block fill-slot="left-port">
-    <div id="left_port">
-        <div class="left_portlet">
-            <tal:block metal:use-macro="here/search_box/macros/page"></tal:block>
-        </div>
+    <div class="portlet_folder">
+        <tal:block metal:use-macro="here/search_box/macros/page"></tal:block>
     </div>
 </metal:block>
 

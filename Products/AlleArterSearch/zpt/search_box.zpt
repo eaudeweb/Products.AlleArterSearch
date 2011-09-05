@@ -7,19 +7,19 @@
                     Den_danske_rodliste request/Den_danske_rodliste | string:;
                     lang request/lang | string:en">
 
-<div class="left_portlet_title">
+<div class="title">
     <tal:block condition="request/search | nothing">refine</tal:block> search
 
-    <a id="ctlChangeLanguage"
-       tal:attributes="href string:${here/absolute_url}?lang=dk"
-       tal:condition="python:lang == 'en'">in english</a>
-
-    <a id="ctlChangeLanguage"
-       tal:attributes="href string:${here/absolute_url}?lang=en"
-       tal:condition="python:lang != 'en'">in danish</a>
+    <!--<a id="ctlChangeLanguage"-->
+    <!--   tal:attributes="href string:${here/absolute_url}?lang=dk"-->
+    <!--   tal:condition="python:lang == 'en'">in english</a>-->
+    <!---->
+    <!--<a id="ctlChangeLanguage"-->
+    <!--   tal:attributes="href string:${here/absolute_url}?lang=en"-->
+    <!--   tal:condition="python:lang != 'en'">in danish</a>-->
 </div>
 
-<div class="left_portlet_content">
+<div class="group">
 
     <form action="" name="frmSearch" method="get" id="frmSearch">
         <div class="field">
