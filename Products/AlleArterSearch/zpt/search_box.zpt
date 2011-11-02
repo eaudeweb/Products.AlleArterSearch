@@ -20,6 +20,7 @@
         <input type="submit" name="search" i18n:attributes="value" value="Search" /> 
     </div>
   </form>
+  <hr />
 </div>
 
 </tal:block>
