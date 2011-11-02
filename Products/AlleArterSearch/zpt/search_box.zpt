@@ -2,6 +2,10 @@
 
 <div class="group">
 
+  <div class="title">
+    <div class="mainsection_title">Search database</div>
+  </div>
+
   <div class="notice">
       <a tal:attributes="href string:${here/absolute_url}?filters=no" 
          tal:condition="python:filters=='yes'" i18n:translate="">simple search</a>
