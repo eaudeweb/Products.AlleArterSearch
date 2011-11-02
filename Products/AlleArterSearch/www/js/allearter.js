@@ -1,11 +1,19 @@
 $(function(){
+    $("select#ctlArtsgruppe").change(function(){
+        $("select#ctlRige").val('*');
+        $("select#ctlRaekke").val('*');
+        $("select#ctlKlasse").val('*');
+        $("select#ctlOrden").val('*');
+        $("select#ctlFamilie").val('*');
+    })
+})
+
+
+$(function(){
     $("select#ctlRige").change(function(){
         $("select#ctlArtsgruppe").val('*');
-        $("select#ctlRaekke").empty();
-        $("select#ctlOrden").empty();
-        $("select#ctlFamilie").empty();
-        $("select#ctlVidenskabeligt_navn").empty();
         var lang = $("input#ctlLang").val();
+
         var params = $.param({'query': $(this).val(), 'entity_type':'Raekke', 'query_field': 'Rige', 'lang':lang}, true);
         $.getJSON("get_json", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
@@ -14,16 +22,51 @@ $(function(){
             }
             $("select#ctlRaekke").html(options);
         })
+
+        var params = $.param({'query': $(this).val(), 'entity_type':'Klasse', 'query_field': 'Rige', 'lang':lang}, true);
+        $.getJSON("get_json", params, function(j){
+            var options = '<option value="*">-all-' + '<'+'/option>';
+            for (var i = 0; i < j.length; i++) {
+                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
+            }
+            $("select#ctlKlasse").html(options);
+        })
+
+        var params = $.param({'query': $(this).val(), 'entity_type':'Orden', 'query_field': 'Rige', 'lang':lang}, true);
+        $.getJSON("get_json", params, function(j){
+            var options = '<option value="*">-all-' + '<'+'/option>';
+            for (var i = 0; i < j.length; i++) {
+                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
+            }
+            $("select#ctlOrden").html(options);
+        })
+
+        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Rige', 'lang':lang}, true);
+        $.getJSON("get_json", params, function(j){
+            var options = '<option value="*">-all-' + '<'+'/option>';
+            for (var i = 0; i < j.length; i++) {
+                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
+            }
+            $("select#ctlFamilie").html(options);
+        })
+
     })
 })
 
 $(function(){
     $("select#ctlRaekke").change(function(){
         $("select#ctlArtsgruppe").val('*');
-        $("select#ctlOrden").empty();
-        $("select#ctlFamilie").empty();
-        $("select#ctlVidenskabeligt_navn").empty();
         var lang = $("input#ctlLang").val();
+
+        var params = $.param({'query': $(this).val(), 'entity_type':'Klasse', 'query_field': 'Raekke', 'lang':lang}, true);
+        $.getJSON("get_json", params, function(j){
+            var options = '<option value="*">-all-' + '<'+'/option>';
+            for (var i = 0; i < j.length; i++) {
+                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
+            }
+            $("select#ctlKlasse").html(options);
+        })
+
         var params = $.param({'query': $(this).val(), 'entity_type':'Orden', 'query_field': 'Raekke', 'lang':lang}, true);
         $.getJSON("get_json", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
@@ -32,15 +75,49 @@ $(function(){
             }
             $("select#ctlOrden").html(options);
         })
+
+        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Raekke', 'lang':lang}, true);
+        $.getJSON("get_json", params, function(j){
+            var options = '<option value="*">-all-' + '<'+'/option>';
+            for (var i = 0; i < j.length; i++) {
+                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
+            }
+            $("select#ctlFamilie").html(options);
+        })
+    })
+})
+
+
+$(function(){
+    $("select#ctlKlasse").change(function(){
+        $("select#ctlArtsgruppe").val('*');
+        var lang = $("input#ctlLang").val();
+
+        var params = $.param({'query': $(this).val(), 'entity_type':'Orden', 'query_field': 'Klasse', 'lang':lang}, true);
+        $.getJSON("get_json", params, function(j){
+            var options = '<option value="*">-all-' + '<'+'/option>';
+            for (var i = 0; i < j.length; i++) {
+                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
+            }
+            $("select#ctlOrden").html(options);
+        })
+
+        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Klasse', 'lang':lang}, true);
+        $.getJSON("get_json", params, function(j){
+            var options = '<option value="*">-all-' + '<'+'/option>';
+            for (var i = 0; i < j.length; i++) {
+                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
+            }
+            $("select#ctlFamilie").html(options);
+        })
     })
 })
 
 $(function(){
     $("select#ctlOrden").change(function(){
         $("select#ctlArtsgruppe").val('*');
-        $("select#ctlFamilie").empty();
-        $("select#ctlVidenskabeligt_navn").empty();
         var lang = $("input#ctlLang").val();
+
         var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Orden', 'lang':lang}, true);
         $.getJSON("get_json", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
@@ -89,9 +166,6 @@ function show_record(record_id) {
     var div = $('#rec_'+record_id + ' div');
     var item_id = div.attr('id');
 
-    $('tr[id^="row"] td').removeClass('PyDigirThisRecord');
-    $('tr[id^="rec"] td').removeClass('PyDigirThisIndex');
-    $('#rec_'+record_id+' td').addClass('PyDigirThisIndex');
     $('#img_' + record_id).addClass('arrow-down');
     $('#rec_'+record_id).removeClass('toggle_off');
     $('#rec_'+record_id).addClass('toggle_on');

@@ -11,8 +11,13 @@
 
 
 <metal:block fill-slot="left-port">
-    <div class="portlet_folder">
-        <tal:block metal:use-macro="here/search_box/macros/page"></tal:block>
+    <div class="portlet_folder" tal:define="filters request/filters | string:yes">
+        <tal:block condition="python:filters=='yes'">
+          <tal:block metal:use-macro="here/filters_box/macros/page"></tal:block>
+        </tal:block>
+        <tal:block condition="python:filters=='no'">
+          <tal:block metal:use-macro="here/search_box/macros/page"></tal:block>
+        </tal:block>
     </div>
 </metal:block>
 

@@ -485,19 +485,25 @@
   <field name="Rige_dk" type="lowercase" indexed="true" stored="true" required="false"/>
   <field name="Raekke" type="lowercase" indexed="true" stored="true" required="false"/>
   <field name="Raekke_dk" type="lowercase" indexed="true" stored="true" required="false"/>
+  <field name="Klasse" type="lowercase" indexed="true" stored="true" required="false"/>
+  <field name="Klasse_dk" type="lowercase" indexed="true" stored="true" required="false"/>
   <field name="Orden" type="lowercase" indexed="true" stored="true" required="false"/>
   <field name="Orden_dk" type="lowercase" indexed="true" stored="true" required="false"/>
   <field name="Familie" type="lowercase" indexed="true" stored="true" required="false"/>
   <field name="Familie_dk" type="lowercase" indexed="true" stored="true" required="false"/>
   <field name="Den_danske_rodliste" type="lowercase" indexed="true" stored="true" required="false"/>
   <field name="Videnskabeligt_navn" type="lowercase" indexed="true" stored="true" required="false"/>
+  <field name="Fredede_arter" type="lowercase" indexed="true" stored="true" required="false"/>
+  <field name="EF-habitatdirektivet" type="lowercase" indexed="true" stored="true" required="false"/>
+  <field name="EF-fuglebeskyttelsesdirektivet" type="lowercase" indexed="true" stored="true" required="false"/>
+  <field name="Bern-konventionen" type="lowercase" indexed="true" stored="true" required="false"/>
+  <field name="Bonn-konventionen" type="lowercase" indexed="true" stored="true" required="false"/>
+  <field name="Ovrige" type="lowercase" indexed="true" stored="true" required="false"/>
 
   <!-- stored, non-indexed fields -->
 
   <field name="Taxontype" type="string" indexed="false" stored="true" required="false"/>
   <field name="Sortering" type="string" indexed="false" stored="true" required="false"/>
-  <field name="Klasse" type="string" indexed="true" stored="true" required="false"/>
-  <field name="Klasse_dk" type="string" indexed="true" stored="true" required="false"/>
   <field name="Autor" type="string" indexed="true" stored="true" required="false"/>
   <field name="Dansk_navn" type="string" indexed="true" stored="true" required="false"/>
   <field name="Underraekke" type="string" indexed="false" stored="true" required="false"/>
@@ -530,12 +536,6 @@
   <field name="Noter_okologi" type="string" indexed="false" stored="true" required="false"/>
   <field name="Noter_status" type="string" indexed="false" stored="true" required="false"/>
   <field name="Dato" type="string" indexed="false" stored="true" required="false"/>
-  <field name="Fredede_arter" type="string" indexed="false" stored="true" required="false"/>
-  <field name="EF-habitatdirektivet" type="string" indexed="false" stored="true" required="false"/>
-  <field name="EF-fuglebeskyttelsesdirektivet" type="string" indexed="false" stored="true" required="false"/>
-  <field name="Bern-konventionen" type="string" indexed="false" stored="true" required="false"/>
-  <field name="Bonn-konventionen" type="string" indexed="false" stored="true" required="false"/>
-  <field name="Ovrige" type="string" indexed="false" stored="true" required="false"/>
   <field name="CITES" type="string" indexed="false" stored="true" required="false"/>
   <field name="NOBANIS" type="string" indexed="false" stored="true" required="false"/>
   <field name="NOBANIS_herkomst" type="string" indexed="false" stored="true" required="false"/>

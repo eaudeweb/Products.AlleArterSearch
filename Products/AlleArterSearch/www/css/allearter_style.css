@@ -3,6 +3,15 @@
     font-size: 1.1em !important;
 }
 
+.multiple {
+    height: 150px;
+    font-size: 0.9em !important;
+}
+
+.notice, .notice a {
+    font-size: 0.9em !important;
+}
+
 .group {
     margin-left: 5px;
 }
@@ -97,3 +106,34 @@ span.record_details {
     color: #346D9F !important;
     text-decoration: underline;
 }
+
+/* CSS Tooltip */
+.tooltip2 {
+	border-bottom: 1px dotted #000000; color: #000000; outline: none;
+	cursor: help; text-decoration: none;
+	position: relative;
+	font-size: 1em !important;
+
+}
+.tooltip2 span {
+	margin-left: -999em;
+	position: absolute;
+}
+.tooltip2:hover span {
+	border-radius: 5px 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; 
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); -webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1); -moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+	font-family: Calibri, Tahoma, Geneva, sans-serif;
+	position: absolute; left: 1em; top: 2em; z-index: 99;
+	margin-left: 0; width: 300px;
+}
+.tooltip2:hover img {
+	border: 0; margin: -10px 0 0 -55px;
+	float: left; position: absolute;
+}
+.tooltip2:hover em {
+	font-family: Candara, Tahoma, Geneva, sans-serif;
+	display: block; padding: 0.2em 0 0.6em 0;
+}
+.classic { padding: 0.8em 1em; font-weight: normal; font-size: 0.9em !important; line-height: 1.2em !important;}
+* html a:hover { background: transparent; }
+.classic {background: #FFFFAA; border: 1px solid #FFAD33; }

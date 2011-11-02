@@ -29,9 +29,18 @@ allow_path('Products.AlleArterSearch:www/css/')
 QUERY_TERMS = ['Artsgruppe',
         'Rige',
         'Raekke',
+        'Klasse',
         'Orden',
         'Familie',
-        'Den_danske_rodliste',
+        ]
+
+FILTER_BY = ['Den_danske_rodliste',
+        'Fredede_arter',
+        'EF-habitatdirektivet',
+        'EF-fuglebeskyttelsesdirektivet',
+        'Bern-konventionen',
+        'Bonn-konventionen',
+        'Ovrige',
         ]
 
 class AlleArterSearch(SimpleItem):
@@ -139,35 +148,54 @@ class AlleArterSearch(SimpleItem):
     def search(self, rows, request):
         """ """
         query_items = []
-        lang = request.form.get('lang', 'en')
 
-        for qt, qv in request.items():
-            if qv and qt in QUERY_TERMS:
-                if qt == 'Den_danske_rodliste':
-                    query_items.append("%s:['' TO *]" % qt)
-                else:
-                    if lang == 'dk':
-                        qt = '%s_dk' % qt
-                    if qv == '*':
-                        query_items.append("%s:*" % qt)
-                    else:
-                        query_items.append('%s:"%s"' % (qt, qv))
-
-        sort_on = request.get('sort', 'Artsgruppe asc')
-
-        if len(query_items) == 0:
-            query_items.append('Artsgruppe:*')
+        search = request.form.get('search', 'Filter')
+        sort_on = request.get('sort', 'Videnskabeligt_navn asc')
 
         try:
             page = int(request.get('page', '1'))
         except ValueError:
             page = 1
 
-        query = {'q': ' AND '.join(query_items),
-                'sort': sort_on,
-                'rows': rows,
-                'start':  (page-1)*self.items_per_page,
-                'wt': 'json'}
+        if search == 'Filter':
+
+            lang = request.form.get('lang', 'en')
+
+            for qt, qv in request.form.items():
+                if qv and qt in QUERY_TERMS:
+                    if lang == 'dk':
+                        qt = '%s_dk' % qt
+                    if qv == '*':
+                        query_items.append("%s:*" % qt)
+                    else:
+                        query_items.append('%s:"%s"' % (qt, qv))
+                if qt == 'Filter':
+                    filter_items = []
+                    for q in qv:
+                        if q in FILTER_BY:
+                            filter_items.append("%s:['' TO *]" % q)
+                    filters = ' OR '.join(filter_items)
+                    query_items.append('(%s)' % filters)
+
+            if len(query_items) == 0:
+                query_items.append('Artsgruppe:*')
+
+            query = {'q': ' AND '.join(query_items),
+                    'sort': sort_on,
+                    'rows': rows,
+                    'start':  (page-1)*self.items_per_page,
+                    'wt': 'json'}
+
+        elif search == 'Search':
+
+            query = {'q': request.get('q', ''),
+                    'defType': 'dismax',
+                    'qf': 'Artsgruppe Artsgruppe_dk Rige Rige_dk Raekke Raekke_dk Klasse Klasse_dk Orden Orden_dk Familie Familie_dk Videnskabeligt_navn',
+                    'fq': 'entity_type:records',
+                    'sort': sort_on,
+                    'rows': rows,
+                    'start':  (page-1)*self.items_per_page,
+                    'wt': 'json'}
 
         url = "%s/select/?%s" % (self.solr_connection, urlencode(query))
         conn = urlopen(url)
@@ -181,6 +209,10 @@ class AlleArterSearch(SimpleItem):
         result = json.load(conn)
         return result['response']['docs'][0]
 
+    def get_filters(self):
+        """ """
+        return FILTER_BY
+
     def get_url(self, request):
         """ """
         qs = []
@@ -192,6 +224,8 @@ class AlleArterSearch(SimpleItem):
 
     results_section = PageTemplateFile('zpt/results_section', globals())
     record_details = PageTemplateFile('zpt/record_details', globals())
+
+    filters_box = PageTemplateFile('zpt/filters_box', globals())
     search_box = PageTemplateFile('zpt/search_box', globals())
 
 InitializeClass(AlleArterSearch)

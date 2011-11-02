@@ -168,6 +168,25 @@
             <field column="Raekke_dk" name="Raekke_dk" />
             <field column="entity_type" name="entity_type" />
         </entity>
+        <entity name="klasse"
+                query="SELECT CONCAT('klasse-', id) AS id,
+                           'Klasse' as entity_type,
+                           Rige,
+                           Rige_dk,
+                           Række as Raekke,
+                           Række_dk as Raekke_dk,
+                           Klasse,
+                           Klasse_dk
+                       FROM alle_arter
+                       GROUP BY Klasse">
+            <field column="Rige" name="Rige" />
+            <field column="Rige_dk" name="Rige_dk" />
+            <field column="Raekke" name="Raekke" />
+            <field column="Raekke_dk" name="Raekke_dk" />
+            <field column="Klasse" name="Klasse" />
+            <field column="Klasse_dk" name="Klasse_dk" />
+            <field column="entity_type" name="entity_type" />
+        </entity>
         <entity name="orden"
                 query="SELECT CONCAT('orden-', id) AS id,
                            'Orden' as entity_type,
@@ -175,6 +194,8 @@
                            Rige_dk,
                            Række as Raekke,
                            Række_dk as Raekke_dk,
+                           Klasse,
+                           Klasse_dk,
                            Orden,
                            Orden_dk
                        FROM alle_arter
@@ -183,6 +204,8 @@
             <field column="Rige_dk" name="Rige_dk" />
             <field column="Raekke" name="Raekke" />
             <field column="Raekke_dk" name="Raekke_dk" />
+            <field column="Klasse" name="Klasse" />
+            <field column="Klasse_dk" name="Klasse_dk" />
             <field column="Orden" name="Orden" />
             <field column="Orden_dk" name="Orden_dk" />
             <field column="entity_type" name="entity_type" />
@@ -195,6 +218,8 @@
                            Rige_dk,
                            Række as Raekke,
                            Række_dk as Raekke_dk,
+                           Klasse,
+                           Klasse_dk,
                            Orden,
                            Orden_dk,
                            Familie,
@@ -205,6 +230,8 @@
             <field column="Rige_dk" name="Rige_dk" />
             <field column="Raekke" name="Raekke" />
             <field column="Raekke_dk" name="Raekke_dk" />
+            <field column="Klasse" name="Klasse" />
+            <field column="Klasse_dk" name="Klasse_dk" />
             <field column="Orden" name="Orden" />
             <field column="Orden_dk" name="Orden_dk" />
             <field column="Familie" name="Familie" />

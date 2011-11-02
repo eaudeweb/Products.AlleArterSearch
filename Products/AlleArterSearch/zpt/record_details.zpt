@@ -4,7 +4,10 @@
       <td>
         <span class="record_details">
           <strong i18n:translate="">Artsgruppe:</strong>
-          <span tal:content="record/Artsgruppe | nothing" /> (<span tal:content="record/Artsgruppe_dk | nothing" />)
+          <span tal:content="record/Artsgruppe | nothing" /> 
+          <tal:block condition="record/Artsgruppe_dk | nothing">
+            (<span tal:content="record/Artsgruppe_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
@@ -18,7 +21,10 @@
       <td>
         <span class="record_details">
           <strong i18n:translate="">Rige:</strong>
-          <span tal:content="record/Rige | nothing" /> (<span tal:content="record/Rige_dk | nothing" />)
+          <span tal:content="record/Rige | nothing" />
+          <tal:block condition="record/Rige_dk | nothing">
+            (<span tal:content="record/Rige_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
@@ -32,7 +38,10 @@
       <td>
         <span class="record_details">
           <strong i18n:translate="">Raekke:</strong>
-          <span tal:content="record/Raekke | nothing" /> (<span tal:content="record/Raekke_dk | nothing" />)
+          <span tal:content="record/Raekke | nothing" />
+          <tal:block condition="record/Raekke_dk | nothing">
+            (<span tal:content="record/Raekke_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
@@ -45,8 +54,11 @@
     <tr>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Orden:</strong>
-          <span tal:content="record/Orden | nothing" /> (<span tal:content="record/Orden_dk | nothing" />)
+          <strong i18n:translate="">Klasse:</strong>
+          <span tal:content="record/Klasse | nothing" />
+          <tal:block condition="record/Klasse_dk | nothing">
+            (<span tal:content="record/Klasse_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
@@ -59,8 +71,11 @@
     <tr>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Familie:</strong>
-          <span tal:content="record/Familie | nothing" /> (<span tal:content="record/Familie_dk | nothing" />)
+          <strong i18n:translate="">Orden:</strong>
+          <span tal:content="record/Orden | nothing" />
+          <tal:block condition="record/Orden_dk | nothing">
+            (<span tal:content="record/Orden_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
@@ -73,8 +88,11 @@
     <tr>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Videnskabeligt_navn:</strong>
-          <span tal:content="record/Videnskabeligt_navn | nothing" />
+          <strong i18n:translate="">Familie:</strong>
+          <span tal:content="record/Familie | nothing" />
+          <tal:block condition="record/Familie_dk | nothing">
+            (<span tal:content="record/Familie_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
@@ -87,8 +105,8 @@
     <tr>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Taxontype:</strong>
-          <span tal:content="record/Taxontype | nothing" />
+          <strong i18n:translate="">Videnskabeligt_navn:</strong>
+          <span tal:content="record/Videnskabeligt_navn | nothing" />
         </span>
       </td>
       <td>
@@ -101,8 +119,8 @@
     <tr>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Sortering:</strong>
-          <span tal:content="record/Sortering | nothing" />
+          <strong i18n:translate="">Taxontype:</strong>
+          <span tal:content="record/Taxontype | nothing" />
         </span>
       </td>
       <td>
@@ -115,28 +133,14 @@
     <tr>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Klasse:</strong>
-          <span tal:content="record/Klasse | nothing" /> (<span tal:content="record/Klasse_dk | nothing" />)
-        </span>
-      </td>
-      <td>
-        <span class="record_details">
-          <strong i18n:translate="">Fredede_arter:</strong>
-          <span tal:content="record/Fredede_arter | nothing" />
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="record_details">
           <strong i18n:translate="">Autor:</strong>
           <span tal:content="record/Autor | nothing" />
         </span>
       </td>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">EF-habitatdirektivet:</strong>
-          <span tal:content="record/EF-habitatdirektivet | nothing" />
+          <strong i18n:translate="">Den_danske_r&oslash;dliste:</strong>
+          <span tal:content="record/Den_danske_rodliste | nothing" />
         </span>
       </td>
     </tr>
@@ -149,8 +153,8 @@
       </td>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">EF-fuglebeskyttelsesdirektivet:</strong>
-          <span tal:content="record/EF-fuglebeskyttelsesdirektivet | nothing" />
+          <strong i18n:translate="">Fredede_arter:</strong>
+          <span tal:content="record/Fredede_arter | nothing" />
         </span>
       </td>
     </tr>
@@ -158,13 +162,16 @@
       <td>
         <span class="record_details">
           <strong i18n:translate="">Underraekke:</strong>
-          <span tal:content="record/Underraekke | nothing" /> (<span tal:content="record/Underraekke_dk | nothing" />)
+          <span tal:content="record/Underraekke | nothing" />
+          <tal:block condition="record/Underraekke_dk | nothing">
+            (<span tal:content="record/Underraekke_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Bern-konventionen:</strong>
-          <span tal:content="record/Bern-konventionen | nothing" />
+          <strong i18n:translate="">EF-habitatdirektivet:</strong>
+          <span tal:content="record/EF-habitatdirektivet | nothing" />
         </span>
       </td>
     </tr>
@@ -177,6 +184,40 @@
       </td>
       <td>
         <span class="record_details">
+          <strong i18n:translate="">EF-fuglebeskyttelsesdirektivet:</strong>
+          <span tal:content="record/EF-fuglebeskyttelsesdirektivet | nothing" />
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="record_details">
+          <strong i18n:translate="">Underklasse:</strong>
+          <span tal:content="record/Underklasse | nothing" />
+          <tal:block condition="record/Underklasse_dk | nothing">
+            (<span tal:content="record/Underklasse_dk | nothing" />)
+          </tal:block>
+       </span>
+      </td>
+      <td>
+        <span class="record_details">
+          <strong i18n:translate="">Bern-konventionen:</strong>
+          <span tal:content="record/Bern-konventionen | nothing" />
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="record_details">
+          <strong i18n:translate="">Infraklasse:</strong>
+          <span tal:content="record/Infraklasse | nothing" />
+          <tal:block condition="record/Infraklasse_dk | nothing">
+            (<span tal:content="record/Infraklasse_dk | nothing" />)
+          </tal:block>
+        </span>
+      </td>
+      <td>
+        <span class="record_details">
           <strong i18n:translate="">Bonn-konventionen:</strong>
           <span tal:content="record/Bonn-konventionen | nothing" />
         </span>
@@ -185,8 +226,11 @@
     <tr>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Underklasse:</strong>
-          <span tal:content="record/Underklasse | nothing" /> (<span tal:content="record/Underklasse_dk | nothing" />)
+          <strong i18n:translate="">Overorden:</strong>
+          <span tal:content="record/Overorden | nothing" />
+          <tal:block condition="record/Overorden_dk | nothing">
+            (<span tal:content="record/Overorden_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
@@ -199,8 +243,11 @@
     <tr>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Infraklasse:</strong>
-          <span tal:content="record/Infraklasse | nothing" /> (<span tal:content="record/Infraklasse_dk | nothing" />)
+          <strong i18n:translate="">Underorden:</strong>
+          <span tal:content="record/Underorden | nothing" />
+          <tal:block condition="record/Underorden_dk | nothing">
+            (<span tal:content="record/Underorden_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
@@ -213,8 +260,11 @@
     <tr>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Overorden:</strong>
-          <span tal:content="record/Overorden | nothing" /> (<span tal:content="record/Overorden_dk | nothing" />)
+          <strong i18n:translate="">Infraorden:</strong>
+          <span tal:content="record/Infraorden | nothing" />
+          <tal:block condition="record/Infraorden_dk | nothing">
+            (<span tal:content="record/Infraorden_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
@@ -227,8 +277,11 @@
     <tr>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Underorden:</strong>
-          <span tal:content="record/Underorden | nothing" /> (<span tal:content="record/Underorden_dk | nothing" />)
+          <strong i18n:translate="">Overfamilie:</strong>
+          <span tal:content="record/Overfamilie | nothing" />
+          <tal:block condition="record/Overfamilie_dk | nothing">
+            (<span tal:content="record/Overfamilie_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
@@ -241,8 +294,11 @@
     <tr>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Infraorden:</strong>
-          <span tal:content="record/Infraorden | nothing" /> (<span tal:content="record/Infraorden_dk | nothing" />)
+          <strong i18n:translate="">Underfamilie:</strong>
+          <span tal:content="record/Underfamilie | nothing" />
+          <tal:block condition="record/Underfamilie_dk | nothing">
+            (<span tal:content="record/Underfamilie_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
@@ -255,8 +311,11 @@
     <tr>
       <td>
         <span class="record_details">
-          <strong i18n:translate="">Overfamilie:</strong>
-          <span tal:content="record/Overfamilie | nothing" /> (<span tal:content="record/Overfamilie_dk | nothing" />)
+          <strong i18n:translate="">Tribus:</strong>
+          <span tal:content="record/Tribus | nothing" />
+          <tal:block condition="record/Tribus_dk | nothing">
+            (<span tal:content="record/Tribus_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
       <td>
@@ -267,26 +326,13 @@
       </td>
     </tr>
     <tr>
-      <td>
-        <span class="record_details">
-          <strong i18n:translate="">Underfamilie:</strong>
-          <span tal:content="record/Underfamilie | nothing" /> (<span tal:content="record/Underfamilie_dk | nothing" />)
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <span class="record_details">
-          <strong i18n:translate="">Tribus:</strong>
-          <span tal:content="record/Tribus | nothing" /> (<span tal:content="record/Tribus_dk | nothing" />)
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
+      <td colspan="2">
         <span class="record_details">
           <strong i18n:translate="">Synonymer:</strong>
-          <span tal:content="record/Synonymer | nothing" /> (<span tal:content="record/Synonymer_dk | nothing" />)
+          <span tal:content="record/Synonymer | nothing" />
+          <tal:block condition="record/Synonymer_dk | nothing">
+            (<span tal:content="record/Synonymer_dk | nothing" />)
+          </tal:block>
         </span>
       </td>
     </tr>
