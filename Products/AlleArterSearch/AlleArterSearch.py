@@ -191,14 +191,18 @@ class AlleArterSearch(SimpleItem):
 
         elif filters == 'no':
 
-            query = {'q': request.get('q', ''),
-                    'defType': 'dismax',
+            q = request.form.get('q', '')
+            query = {'defType': 'dismax',
                     'qf': 'Artsgruppe Artsgruppe_dk Rige Rige_dk Raekke Raekke_dk Klasse Klasse_dk Orden Orden_dk Familie Familie_dk Videnskabeligt_navn',
                     'fq': 'entity_type:records',
                     'sort': sort_on,
                     'rows': rows,
                     'start':  (page-1)*self.items_per_page,
                     'wt': 'json'}
+            if q:
+                query['q'] = q
+            else:
+                query['q.alt'] = '*'
 
         url = "%s/select/?%s" % (self.solr_connection, urlencode(query))
         conn = urlopen(url)
