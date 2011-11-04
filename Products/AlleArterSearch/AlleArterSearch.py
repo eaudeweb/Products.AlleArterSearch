@@ -181,6 +181,7 @@ class AlleArterSearch(SimpleItem):
                 query_items.append('Artsgruppe:*')
 
             query = {'q': ' AND '.join(query_items),
+                    'fq': 'entity_type:records',
                     'sort': sort_on,
                     'rows': rows,
                     'start':  (page-1)*self.items_per_page,

@@ -118,7 +118,12 @@
     </tbody>
 </table>
 
-<tal:block define="paginator python:here.make_paginator(fake_records, here.items_per_page, body=5, padding=2, orphans=5);
+<p tal:condition="not:records">
+  There are no records found which satisfy your search term(s).
+</p>
+
+<tal:block tal:condition="records"
+          define="paginator python:here.make_paginator(fake_records, here.items_per_page, body=5, padding=2, orphans=5);
              page_obj python:paginator.page(page);
              nopage_url string:${url}&sort=${sort};
              make_url python:lambda page: '%s&amp;page=%s' % (nopage_url, page);">
