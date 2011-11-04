@@ -71,8 +71,10 @@ class AlleArterSearch(SimpleItem):
     security.declareProtected(view, 'index_html')
     def index_html(self, REQUEST=None):
         """ """
-        #if not self.get_solr_status():
-        #    self.setSessionErrorsTrans('Database error (Solr does not respond)!')
+
+        if not self.get_solr_status():
+            self.setSessionErrorsTrans('Database error (Solr does not respond)!')
+
         records, records_found = self.search(rows = self.items_per_page,
                                                       request = REQUEST)
 
@@ -149,7 +151,7 @@ class AlleArterSearch(SimpleItem):
         """ """
         query_items = []
 
-        search = request.form.get('search', 'Filter')
+        filters = request.form.get('filters', 'yes')
         sort_on = request.get('sort', 'Videnskabeligt_navn asc')
 
         try:
@@ -157,7 +159,7 @@ class AlleArterSearch(SimpleItem):
         except ValueError:
             page = 1
 
-        if search == 'Filter':
+        if filters == 'yes':
 
             lang = request.form.get('lang', 'en')
 
@@ -187,7 +189,7 @@ class AlleArterSearch(SimpleItem):
                     'start':  (page-1)*self.items_per_page,
                     'wt': 'json'}
 
-        elif search == 'Search':
+        elif filters == 'no':
 
             query = {'q': request.get('q', ''),
                     'defType': 'dismax',

@@ -118,7 +118,7 @@
     </tbody>
 </table>
 
-<p tal:condition="not:records">
+<p tal:condition="not:records" i18n:translate="">
   There are no records found which satisfy your search term(s).
 </p>
 

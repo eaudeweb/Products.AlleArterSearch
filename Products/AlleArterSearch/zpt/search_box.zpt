@@ -3,7 +3,7 @@
 <div class="group">
 
   <div class="title">
-    <div class="mainsection_title">Search database</div>
+    <div class="mainsection_title" i18n:translate="">Search database</div>
   </div>
 
   <div class="notice">
