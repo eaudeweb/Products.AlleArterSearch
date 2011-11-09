@@ -14,8 +14,8 @@ $(function(){
         $("select#ctlArtsgruppe").val('*');
         var lang = $("input#ctlLang").val();
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Raekke', 'query_field': 'Rige', 'lang':lang}, true);
-        $.getJSON("get_json", params, function(j){
+        var params = $.param({'query': $(this).val(), 'entity_type':'Raekke', 'query_field': 'Rige'}, true);
+        $.getJSON("jsonFieldValues", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
             for (var i = 0; i < j.length; i++) {
                 options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
@@ -23,8 +23,8 @@ $(function(){
             $("select#ctlRaekke").html(options);
         })
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Klasse', 'query_field': 'Rige', 'lang':lang}, true);
-        $.getJSON("get_json", params, function(j){
+        var params = $.param({'query': $(this).val(), 'entity_type':'Klasse', 'query_field': 'Rige'}, true);
+        $.getJSON("jsonFieldValues", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
             for (var i = 0; i < j.length; i++) {
                 options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
@@ -32,8 +32,8 @@ $(function(){
             $("select#ctlKlasse").html(options);
         })
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Orden', 'query_field': 'Rige', 'lang':lang}, true);
-        $.getJSON("get_json", params, function(j){
+        var params = $.param({'query': $(this).val(), 'entity_type':'Orden', 'query_field': 'Rige'}, true);
+        $.getJSON("jsonFieldValues", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
             for (var i = 0; i < j.length; i++) {
                 options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
@@ -41,8 +41,8 @@ $(function(){
             $("select#ctlOrden").html(options);
         })
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Rige', 'lang':lang}, true);
-        $.getJSON("get_json", params, function(j){
+        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Rige'}, true);
+        $.getJSON("jsonFieldValues", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
             for (var i = 0; i < j.length; i++) {
                 options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
@@ -58,8 +58,8 @@ $(function(){
         $("select#ctlArtsgruppe").val('*');
         var lang = $("input#ctlLang").val();
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Klasse', 'query_field': 'Raekke', 'lang':lang}, true);
-        $.getJSON("get_json", params, function(j){
+        var params = $.param({'query': $(this).val(), 'entity_type':'Klasse', 'query_field': 'Raekke'}, true);
+        $.getJSON("jsonFieldValues", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
             for (var i = 0; i < j.length; i++) {
                 options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
@@ -67,8 +67,8 @@ $(function(){
             $("select#ctlKlasse").html(options);
         })
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Orden', 'query_field': 'Raekke', 'lang':lang}, true);
-        $.getJSON("get_json", params, function(j){
+        var params = $.param({'query': $(this).val(), 'entity_type':'Orden', 'query_field': 'Raekke'}, true);
+        $.getJSON("jsonFieldValues", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
             for (var i = 0; i < j.length; i++) {
                 options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
@@ -76,8 +76,8 @@ $(function(){
             $("select#ctlOrden").html(options);
         })
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Raekke', 'lang':lang}, true);
-        $.getJSON("get_json", params, function(j){
+        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Raekke'}, true);
+        $.getJSON("jsonFieldValues", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
             for (var i = 0; i < j.length; i++) {
                 options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
@@ -93,8 +93,8 @@ $(function(){
         $("select#ctlArtsgruppe").val('*');
         var lang = $("input#ctlLang").val();
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Orden', 'query_field': 'Klasse', 'lang':lang}, true);
-        $.getJSON("get_json", params, function(j){
+        var params = $.param({'query': $(this).val(), 'entity_type':'Orden', 'query_field': 'Klasse'}, true);
+        $.getJSON("jsonFieldValues", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
             for (var i = 0; i < j.length; i++) {
                 options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
@@ -102,8 +102,8 @@ $(function(){
             $("select#ctlOrden").html(options);
         })
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Klasse', 'lang':lang}, true);
-        $.getJSON("get_json", params, function(j){
+        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Klasse'}, true);
+        $.getJSON("jsonFieldValues", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
             for (var i = 0; i < j.length; i++) {
                 options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
@@ -118,8 +118,8 @@ $(function(){
         $("select#ctlArtsgruppe").val('*');
         var lang = $("input#ctlLang").val();
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Orden', 'lang':lang}, true);
-        $.getJSON("get_json", params, function(j){
+        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Orden'}, true);
+        $.getJSON("jsonFieldValues", params, function(j){
             var options = '<option value="*">-all-' + '<'+'/option>';
             for (var i = 0; i < j.length; i++) {
                 options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';

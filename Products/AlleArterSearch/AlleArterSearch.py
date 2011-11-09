@@ -110,15 +110,15 @@ class AlleArterSearch(SimpleItem):
         except:
             return False
 
-    security.declareProtected(view, 'get_field_results')
-    def get_field_results(self, query, entity_type, query_field=None, lang='en'):
+    security.declarePrivate('get_field_values')
+    def get_field_values(self, query, entity_type, query_field=None, lang='en'):
         """ """
         if query_field is None:
             query_field = entity_type
 
         record = entity_type
 
-        if lang == 'dk':
+        if lang == 'dk' and entity_type== 'Artsgruppe':
             query_field = '%s_dk' % query_field
             record = '%s_dk' % record
 
@@ -134,11 +134,31 @@ class AlleArterSearch(SimpleItem):
 
         return [ r[record].encode('utf-8') for r in result['response']['docs'] ]
 
-    security.declareProtected(view, 'get_json')
-    def get_json(self, query, entity_type='Rige', query_field=None, lang='en'):
+    security.declareProtected(view, 'jsonFieldValues')
+    def jsonFieldValues(self, query, entity_type='Rige', query_field=None):
         """ """
-        records = self.get_field_results(query, entity_type, query_field, lang)
+        records = self.get_field_values(query, entity_type, query_field)
         return json.dumps(records)
+
+    security.declareProtected(view, 'getFieldValues')
+    def getFieldValues(self, entity_type, query_fields, request=None):
+        """ """
+        query = ''
+        lang = request.form.get('lang', 'en')
+
+        if query_fields:
+            for query_field in query_fields:
+                if request.form.get(query_field) != '*':
+                    query = request.form.get(query_field)
+                    break
+            if not query:
+                query = '*'
+                query_field = query_fields[-1]
+        else:
+            query = '*'
+            query_field = entity_type
+
+        return self.get_field_values(query, entity_type, query_field, lang)
 
     def get_field(self, record, field, lang):
         """ """

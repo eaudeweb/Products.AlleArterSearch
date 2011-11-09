@@ -37,7 +37,9 @@
             </label>
             <select name="Artsgruppe" class="search_box" id="ctlArtsgruppe">
                 <option value="*" i18n:translate="">-all-</option>
-                <option tal:repeat="record python:here.get_field_results(query='*', entity_type='Artsgruppe', lang=lang)"
+                <option tal:repeat="record python:here.getFieldValues(entity_type='Artsgruppe',
+                                                                        query_fields=[],
+                                                                        request=request)"
                         tal:attributes="value record; selected python:record == Artsgruppe;"
                         tal:content="record" />
             </select><br />
@@ -56,7 +58,9 @@
             <label for="ctlRige" i18n:translate="">Rige</label>
             <select name="Rige" class="search_box" id="ctlRige">
                 <option value="*" i18n:translate="">-all-</option>
-                <option tal:repeat="record python:here.get_field_results(query='*', entity_type='Rige')"
+                <option tal:repeat="record python:here.getFieldValues(entity_type='Rige', 
+                                                                        query_fields=[], 
+                                                                        request=request)"
                         tal:attributes="value record; selected python:record == Rige;"
                         tal:content="record" />
             </select>
@@ -66,7 +70,9 @@
             <label for="ctlRaekke" i18n:translate="">R&aelig;kke</label>
             <select name="Raekke" class="search_box" id="ctlRaekke">
                 <option value="*" i18n:translate="">-all-</option>
-                <option tal:repeat="record python:here.get_field_results(query=Rige, entity_type='Raekke', query_field='Rige')"
+                <option tal:repeat="record python:here.getFieldValues(entity_type='Raekke', 
+                                                                        query_fields=['Rige'], 
+                                                                        request=request)"
                         tal:attributes="value record; selected python:record == Raekke;"
                         tal:content="record" />
             </select>
@@ -76,7 +82,9 @@
             <label for="ctlKlasse" i18n:translate="">Klasse</label>
             <select name="Klasse" class="search_box" id="ctlKlasse">
                 <option value="*" i18n:translate="">-all-</option>
-                <option tal:repeat="record python:here.get_field_results(query=Raekke, entity_type='Klasse', query_field='Raekke')"
+                <option tal:repeat="record python:here.getFieldValues(entity_type='Klasse', 
+                                                                        query_fields=['Raekke', 'Rige'], 
+                                                                        request=request)"
                         tal:attributes="value record; selected python:record == Klasse;"
                         tal:content="record" />
             </select>
@@ -86,7 +94,9 @@
             <label for="ctlOrden" i18n:translate="">Orden</label>
             <select name="Orden" class="search_box" id="ctlOrden">
                 <option value="*" i18n:translate="">-all-</option>
-                <option tal:repeat="record python:here.get_field_results(query=Klasse, entity_type='Orden', query_field='Klasse')"
+                <option tal:repeat="record python:here.getFieldValues(entity_type='Orden', 
+                                                                          query_fields=['Klasse', 'Raekke', 'Rige'], 
+                                                                          request=request)"
                         tal:attributes="value record; selected python:record == Orden;"
                         tal:content="record" />
             </select>
@@ -96,7 +106,9 @@
             <label for="ctlFamilie" i18n:translate="">Familie</label>
             <select name="Familie" class="search_box" id="ctlFamilie">
                 <option value="*" i18n:translate="">-all-</option>
-                <option tal:repeat="record python:here.get_field_results(query=Orden, entity_type='Familie', query_field='Orden')"
+                <option tal:repeat="record python:here.getFieldValues(entity_type='Familie', 
+                                                                        query_fields=['Orden', 'Klasse', 'Raekke', 'Rige'], 
+                                                                        request=request)"
                         tal:attributes="value record; selected python:record == Familie;"
                         tal:content="record" />
             </select>
