@@ -464,7 +464,7 @@
 
    <!-- catchall field, containing all other searchable text fields (implemented
         via copyField further on in this schema  -->
-   <field name="text" type="text" indexed="true" stored="false" multiValued="true"/>
+   <field name="text" type="text" indexed="true" stored="true" multiValued="true"/>
 
    <!-- catchall text field that indexes tokens both normally and in reverse for efficient
         leading wildcard queries. -->
@@ -604,6 +604,7 @@
         is added to the index.  It's used either to index the same field differently,
         or to add multiple fields to the same field for easier/faster searching.  -->
 
+   <copyField source="*" dest="text"/>
    <!--
    <copyField source="cat" dest="text"/>
    <copyField source="name" dest="text"/>

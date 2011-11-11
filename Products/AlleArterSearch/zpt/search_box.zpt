@@ -17,7 +17,8 @@
     <div class="field">
         <input type="text" name="q" tal:attributes="value request/q | string:" />
         <input type="hidden" name="filters" tal:attributes="value filters" />
-        <input type="submit" name="search" i18n:attributes="value" value="Search" /> 
+        <input type="submit" name="search" i18n:attributes="value" value="Search" />
+        <a tal:attributes="href string:here/absolute_url?filters=no" i18n:translate="">clear</a>
     </div>
   </form>
   <hr />
