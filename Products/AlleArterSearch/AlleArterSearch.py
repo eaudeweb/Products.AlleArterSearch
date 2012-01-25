@@ -212,7 +212,7 @@ class AlleArterSearch(SimpleItem):
         elif filters == 'no':
 
             q = request.form.get('q', '')
-            query = {'fq': 'entity_type:records',
+            query = {'fq': 'entity_type:Fulltext',
                     'sort': sort_on,
                     'rows': rows,
                     'start':  (page-1)*self.items_per_page,
@@ -243,7 +243,10 @@ class AlleArterSearch(SimpleItem):
         qs = []
         for k, v in request.form.items():
             if k not in ['sort', 'page', '-C']:
-                qs.append('%s=%s' % (k,v))
+                if isinstance(v, list):
+                    qs.append(urlencode([('%s:list' % k, value) for value in v]))
+                else:
+                    qs.append('%s=%s' % (k,v))
         return '%s?%s' % (self.absolute_url(), '&'.join(qs))
 
 
