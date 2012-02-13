@@ -213,7 +213,6 @@
         <entity name="familie"
                 query="SELECT CONCAT('familie-', alle_arter.id) AS id,
                            'Familie' as entity_type,
-                           'Orden' as entity_type,
                            Rige,
                            Rige_dk,
                            Række as Raekke,

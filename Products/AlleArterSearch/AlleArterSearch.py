@@ -6,12 +6,18 @@ except ImportError:
 
 from urllib2 import urlopen
 from urllib import urlencode
+import re
+import logging
 
 from OFS.SimpleItem import SimpleItem
 from App.class_init import InitializeClass
 from AccessControl.SecurityInfo import ClassSecurityInfo
 from AccessControl.Permissions import view_management_screens, view
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
+
+
+log = logging.getLogger(__name__)
+
 
 manage_add_html = PageTemplateFile('zpt/manage_add', globals())
 def manage_add_search(self, id, REQUEST=None):
@@ -42,6 +48,13 @@ FILTER_BY = ['Den_danske_rodliste',
         'Bonn-konventionen',
         'Ovrige',
         ]
+
+
+_solr_quote_pattern = re.compile(r'([\\+\-&|!(){}[\]^~*?:"; ])')
+
+def solr_quote(text):
+    return _solr_quote_pattern.sub(r'\\\1', text)
+
 
 class AlleArterSearch(SimpleItem):
     """
@@ -129,6 +142,7 @@ class AlleArterSearch(SimpleItem):
                 'rows': 32000}
 
         url = u"%s/select/?%s" % (self.solr_connection, urlencode(query))
+        log.debug('get_field_values: %s', url)
         conn = urlopen(url)
         result = json.load(conn)
 
@@ -211,18 +225,19 @@ class AlleArterSearch(SimpleItem):
 
         elif filters == 'no':
 
-            q = request.form.get('q', '')
+            q = request.form.get('q', '').decode('utf-8')
             query = {'fq': 'entity_type:records',
                     'sort': sort_on,
                     'rows': rows,
                     'start':  (page-1)*self.items_per_page,
                     'wt': 'json'}
             if q:
-                query['q'] = 'text:*%s*' % q
+                query['q'] = ('text:"%s"' % solr_quote(q).lower()).encode('utf-8')
             else:
                 query['q'] = '*'
 
         url = "%s/select/?%s" % (self.solr_connection, urlencode(query))
+        log.debug('search: %s', url)
         conn = urlopen(url)
         result = json.load(conn)
         return result['response']['docs'], result['response']['numFound']
@@ -230,6 +245,7 @@ class AlleArterSearch(SimpleItem):
     def get_record_details(self, id):
         """ """
         url = "%s/select/?q=%s&wt=json" % (self.solr_connection, id)
+        log.debug('get_record_details: %s', url)
         conn = urlopen(url)
         result = json.load(conn)
         return result['response']['docs'][0]

@@ -1,0 +1,5 @@
+*.pyc
+*.egg-info
+solr/data
+solr/lib
+solr/conf/dataimport.properties

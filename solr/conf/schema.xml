@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="example" version="1.2">
+
+  <types>
+
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
+
+    <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
+      <analyzer>
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <filter class="solr.WordDelimiterFilterFactory"
+                generateWordParts="1"
+                splitOnCaseChange="1"
+                preserveOriginal="1" />
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="text_rev" class="solr.TextField" positionIncrementGap="100">
+      <analyzer type="index">
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.ReversedWildcardFilterFactory" withOriginal="true"
+           maxPosAsterisk="3" maxPosQuestion="2" maxFractionAsterisk="0.33"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <filter class="solr.WordDelimiterFilterFactory"
+                generateWordParts="1"
+                splitOnCaseChange="1"
+                preserveOriginal="1" />
+        <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldType>
+
+    <fieldType name="lowercase" class="solr.TextField" positionIncrementGap="100">
+      <analyzer>
+        <tokenizer class="solr.KeywordTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory" />
+      </analyzer>
+    </fieldType>
+
+ </types>
+
+
+ <fields>
+   <field name="id" type="string" indexed="true" stored="true" required="true" />
+   <field name="text" type="text" indexed="true" stored="true" multiValued="true"/>
+   <field name="text_rev" type="text_rev" indexed="true" stored="false" multiValued="true"/>
+   <dynamicField name="*" type="lowercase" indexed="true" stored="true" />
+ </fields>
+
+ <uniqueKey>id</uniqueKey>
+
+ <defaultSearchField>id</defaultSearchField>
+
+ <solrQueryParser defaultOperator="OR"/>
+
+ <copyField source="*" dest="text"/>
+
+</schema>
