@@ -2,7 +2,6 @@
 <config>
   <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
   <luceneMatchVersion>LUCENE_34</luceneMatchVersion>
-  <lib dir="../../dist/" regex="apache-solr-dataimporthandler-\d.*\.jar" />
 
   <directoryFactory name="DirectoryFactory"
                     class="${solr.directoryFactory:solr.StandardDirectoryFactory}"/>
@@ -95,13 +94,6 @@
 
   <requestHandler name="/admin/"
                   class="solr.admin.AdminHandlers" />
-
-  <requestHandler name="/dataimport"
-                  class="org.apache.solr.handler.dataimport.DataImportHandler">
-    <lst name="defaults">
-      <str name="config">../data-import.xml</str>
-    </lst>
-  </requestHandler>
 
   <queryResponseWriter name="xslt" class="solr.XSLTResponseWriter">
     <int name="xsltCacheLifetimeSeconds">5</int>
