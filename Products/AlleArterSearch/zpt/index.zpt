@@ -25,6 +25,11 @@
 
 <div id="center_content">
 
+    <p tal:condition="python: here.checkPermission('View Management Screens')">
+        <a tal:attributes="href string:${here/absolute_url}/csv_update"
+           i18n:translate="">CSV upload</a>
+    </p>
+
     <tal:block metal:use-macro="here/results_section/macros/page"></tal:block>
 
 </div>

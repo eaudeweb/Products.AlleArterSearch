@@ -4,16 +4,19 @@ try:
 except ImportError:
     import simplejson as json
 
+import urllib2
 from urllib2 import urlopen
 from urllib import urlencode
 import re
 import logging
+import csv
 
 from OFS.SimpleItem import SimpleItem
 from App.class_init import InitializeClass
 from AccessControl.SecurityInfo import ClassSecurityInfo
 from AccessControl.Permissions import view_management_screens, view
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
+import schema
 
 
 log = logging.getLogger(__name__)
@@ -262,6 +265,67 @@ class AlleArterSearch(SimpleItem):
                 qs.append('%s=%s' % (k,v))
         return '%s?%s' % (self.absolute_url(), '&'.join(qs))
 
+    security.declareProtected(view, 'get_csv')
+    def get_csv(self, REQUEST, RESPONSE):
+        """ Download search results in CSV format """
+        query = {'fq': 'entity_type:records',
+                 'q': '*',
+                 'wt': 'csv',
+                 'rows': 10**6}
+        url = "%s/select/?%s" % (self.solr_connection, urlencode(query))
+        log.debug('csv dump: %s', url)
+
+        solr = urlopen(url)
+        solr_csv = csv.DictReader(solr)
+
+        RESPONSE.setHeader('Content-Type', 'text/csv')
+        fields = sorted(schema.data_fields.values())
+        out_csv = csv.DictWriter(RESPONSE, fields, extrasaction='ignore')
+
+        out_csv.writerow(dict((k,k) for k in fields))
+        for record in solr_csv:
+            row = dict((label, record.get(name, '')) for
+                       name, label in schema.data_fields.items())
+            out_csv.writerow(row)
+
+        solr.close()
+
+    _csv_update_tmpl = PageTemplateFile('zpt/csv_update.zpt', globals())
+    security.declareProtected(view_management_screens, 'get_csv')
+    def csv_update(self, REQUEST):
+        """ Update the solr data with an uploaded csv """
+
+        if REQUEST.REQUEST_METHOD == 'GET':
+            return self._csv_update_tmpl()
+
+        new_csv_file = REQUEST.form['new_csv']
+        dialect = csv.Sniffer().sniff(new_csv_file.read(1024).splitlines()[0])
+        new_csv_file.seek(0)
+        new_csv = csv.DictReader(new_csv_file, dialect=dialect)
+
+        solr = SolrInterface(self.solr_connection)
+        facets = ManualFacets()
+        solr.clear_db()
+
+        for i, row in enumerate(new_csv):
+            record = dict((name, row.get(label, '')) for
+                          name, label in schema.data_fields.items())
+            facets.add(record)
+            record.update({
+                'id': str(i),
+                'entity_type': 'records',
+            })
+            solr.add(record)
+
+        for record in facets.finish():
+            solr.add(record)
+
+        solr.commit()
+
+        self.setSessionInfoTrans('%d records uploaded' % (i+1))
+
+        REQUEST.RESPONSE.redirect(self.absolute_url() + '/csv_update')
+
 
     results_section = PageTemplateFile('zpt/results_section', globals())
     record_details = PageTemplateFile('zpt/record_details', globals())
@@ -270,3 +334,111 @@ class AlleArterSearch(SimpleItem):
     search_box = PageTemplateFile('zpt/search_box', globals())
 
 InitializeClass(AlleArterSearch)
+
+
+class ManualFacets(object):
+
+    def __init__(self):
+        self.facet_records = set()
+
+    def add(self, record):
+        def add_record(data):
+            self.facet_records.add(tuple(sorted(data.items())))
+
+        add_record({
+            'entity_type': 'Artsgruppe',
+            'Artsgruppe': record['Artsgruppe'],
+            'Artsgruppe_dk': record['Artsgruppe_dk'],
+        })
+
+        add_record({
+            'entity_type': 'Rige',
+            'Rige': record['Rige'],
+        })
+
+        add_record({
+            'entity_type': 'Raekke',
+            'Rige': record['Rige'],
+            'Raekke': record['Raekke'],
+        })
+
+        add_record({
+            'entity_type': 'Klasse',
+            'Rige': record['Rige'],
+            'Raekke': record['Raekke'],
+            'Klasse': record['Klasse'],
+        })
+
+        add_record({
+            'entity_type': 'Orden',
+            'Rige': record['Rige'],
+            'Raekke': record['Raekke'],
+            'Klasse': record['Klasse'],
+            'Orden': record['Orden'],
+        })
+
+        add_record({
+            'entity_type': 'Familie',
+            'Rige': record['Rige'],
+            'Raekke': record['Raekke'],
+            'Klasse': record['Klasse'],
+            'Orden': record['Orden'],
+            'Familie': record['Familie'],
+        })
+
+    def finish(self):
+        for i, record in enumerate(self.facet_records):
+            yield dict(record, id='facet-%d' % i)
+
+
+class SolrInterface(object):
+
+    AUTOFLUSH_SIZE = 1000
+
+    def __init__(self, solr_url):
+        self.solr_url = solr_url.rstrip('/')
+        self._queue = []
+
+    def clear_db(self):
+        self._update({'delete': {'query': '*:*'}})
+
+    def add(self, record):
+        self._queue.append(record)
+        if len(self._queue) >= self.AUTOFLUSH_SIZE:
+            self._flush()
+
+    def commit(self):
+        self._flush()
+        self._update({'commit': {}})
+
+    def _flush(self):
+        if self._queue:
+            self._update(self._queue)
+            self._queue[:] = []
+
+    def _update(self, data):
+        request = urllib2.Request(self.solr_url + '/update/json')
+        request.add_header('Content-Type', 'application/json')
+        request.add_data(json.dumps(data))
+
+        response = self._solr_http(request)
+        response.read()
+        response.close()
+
+    def _solr_http(self, request):
+        if isinstance(request, urllib2.Request):
+            url = request.get_full_url()
+        else:
+            url = request
+
+        log.debug("Solr request to url %r", url)
+
+        try:
+            response = urllib2.urlopen(request)
+        except urllib2.URLError, e:
+            if hasattr(e, 'reason') and e.reason.errno == errno.ECONNREFUSED:
+                raise StorageError("Error connecting to Solr")
+            else:
+                raise
+
+        return response

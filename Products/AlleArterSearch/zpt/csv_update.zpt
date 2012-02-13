@@ -1,0 +1,34 @@
+<metal:block i18n:domain="portal_translations"
+             use-macro="here/standard_template_macro">
+
+<metal:block metal:fill-slot="title">
+    <title tal:content="string:${here/title} | ${here/site_title}" />
+</metal:block>
+
+<metal:block metal:fill-slot="head">
+    <link rel="stylesheet" type="text/css" media="screen"
+          tal:attributes="href string:/misc_/AlleArterSearch/allearter_style.css" />
+    <script src="/misc_/AlleArterSearch/allearter.js"></script>
+</metal:block>
+
+
+<metal:block fill-slot="left-port"></metal:block>
+
+<metal:block fill-slot="body">
+
+<div id="center_content">
+
+    <h2 i18n:translate="">Upload records as CSV</h2>
+    <p i18n:translate="">Please upload a UTF-8 encoded CSV file.</p>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="new_csv">
+        <input type="submit" value="Upload"
+               i18n:attributes="value">
+    </form>
+
+</div>
+
+
+</metal:block>
+
+</metal:block>
