@@ -213,7 +213,7 @@
         <entity name="familie"
                 query="SELECT CONCAT('familie-', alle_arter.id) AS id,
                            'Familie' as entity_type,
-                           'Orden',
+                           'Orden' as entity_type,
                            Rige,
                            Rige_dk,
                            Række as Raekke,
@@ -237,13 +237,6 @@
             <field column="Familie" name="Familie" />
             <field column="Familie_dk" name="Familie_dk" />
             <field column="entity_type" name="entity_type" />
-        </entity>
-        <entity name="fulltext"
-                query="SELECT id,
-                        'Fulltext' as entity_type, 
-                        GROUP_CONCAT(Artsgruppe, ' ', Artsgruppe_dk, ' ', Videnskabeligt_navn, ' ', Autor, ' ', Dansk_navn, ' ', Taxontype, ' ', Sortering, ' ', Rige, ' ', Rige_dk, ' ', Række, ' ', Række_dk, ' ', Underrække, ' ', Underrække_dk, ' ', Overklasse, ' ', Overklasse_dk, ' ', Klasse, ' ', Klasse_dk, ' ', Underklasse, ' ', Underklasse_dk, ' ', Infraklasse, ' ', Infraklasse_dk, ' ', Overorden, ' ', Overorden_dk, ' ', Orden, ' ', Orden_dk, ' ', Underorden, ' ', Underorden_dk, ' ', Infraorden, ' ', Infraorden_dk, ' ', Overfamilie, ' ', Overfamilie_dk, ' ', Familie, ' ', Familie_dk, ' ', Underfamilie, ' ', Underfamilie_dk, ' ', Tribus, ' ', Tribus_dk, ' ', Synonymer, ' ', Synonymer_dk, ' ', Referencenavn, ' ', Referenceår, ' ', Referencetekst, ' ', Noter_systematik, ' ', Noter_forekomst, ' ', Noter_økologi, ' ', Noter_status, ' ', Dato, ' ', Den_danske_rødliste, ' ', Fredede_arter, ' ', `EF-habitatdirektivet`, ' ', `EF-fuglebeskyttelsesdirektivet`, ' ', `Bern-konventionen`, ' ', `Bonn-konventionen`, ' ', Øvrige, ' ', CITES, ' ', NOBANIS, ' ', NOBANIS_herkomst, ' ', NOBANIS_etableringsstatus, ' ', NOBANIS_invasiv_optræden) AS text FROM alle_arter
-                GROUP BY id">
-            <field column="text" name="text" />
         </entity>
     </document>
 </dataConfig>
