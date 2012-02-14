@@ -173,7 +173,7 @@ class AlleArterSearch(SimpleItem):
 
     def get_field(self, record, field, lang):
         """ """
-        if lang == 'dk':
+        if lang == 'dk' and field == 'Artsgruppe':
             field = '%s_dk' % field
         return record.get(field, None)
 
@@ -187,7 +187,7 @@ class AlleArterSearch(SimpleItem):
 
             for qt, qv in request.form.items():
                 if qv and qt in QUERY_TERMS:
-                    if lang == 'dk':
+                    if lang == 'dk' and qt == 'Artsgruppe':
                         qt = '%s_dk' % qt
                     if qv == '*':
                         query_items.append("%s:*" % qt)
