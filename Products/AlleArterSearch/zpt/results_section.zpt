@@ -15,14 +15,11 @@
                     url python: '%s?%s' % (here.absolute_url(), url_args);
                     lang request/lang | string:en">
 
-<span class="buttons">
-    <a class="download_link"
-       tal:attributes="href string:${here/absolute_url}/get_csv?${url_args}"
-       i18n:translate="">CSV download</a>
-</span>
-
 <h1 i18n:translate="">
     Search database (<span i18n:name="records_number" tal:replace="python:len(fake_records)" /> records found)
+    <a class="download_link"
+       tal:attributes="href string:${here/absolute_url}/get_csv?${url_args}"
+       i18n:translate="">(download CSV)</a>
 </h1>
 <table class="datatable search-results-table" tal:condition="records">
     <thead>
@@ -67,33 +64,33 @@
                 <img src="misc_/Naaya/sort_desc.gif"/>
               </tal:block>
             </th>
-            <th>
+            <th width="10%">
               <tal:block condition="python:sort=='Dansk_navn asc'">
-                <a i18n:translate="" tal:attributes="href string:${url}&sort=Dansk_navn desc">Dansk_navn</a>
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Dansk_navn desc">Dansk navn</a>
                 <img src="misc_/Naaya/sort_asc.gif"/>
               </tal:block>
               <tal:block condition="python:sort!='Dansk_navn asc'">
-                <a i18n:translate="" tal:attributes="href string:${url}&sort=Dansk_navn asc">Dansk_navn</a>
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Dansk_navn asc">Dansk navn</a>
                 <img src="misc_/Naaya/sort_desc.gif"/>
               </tal:block>
             </th>
-            <th>
+            <th width="10%">
               <tal:block condition="python:sort=='Fredede_arter asc'">
-                <a i18n:translate="" tal:attributes="href string:${url}&sort=Fredede_arter desc">Fredede_arter</a>
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Fredede_arter desc">Fredede arter</a>
                 <img src="misc_/Naaya/sort_asc.gif"/>
               </tal:block>
               <tal:block condition="python:sort!='Fredede_arter asc'">
-                <a i18n:translate="" tal:attributes="href string:${url}&sort=Fredede_arter asc">Fredede_arter</a>
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Fredede_arter asc">Fredede arter</a>
                 <img src="misc_/Naaya/sort_desc.gif"/>
               </tal:block>
             </th>
-            <th>
+            <th width="10%">
               <tal:block condition="python:sort=='Den_danske_rodliste asc'">
-                <a i18n:translate="" tal:attributes="href string:${url}&sort=Den_danske_rodliste desc">Den_danske_r&oslash;dliste</a>
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Den_danske_rodliste desc">Den danske r&oslash;dliste</a>
                 <img src="misc_/Naaya/sort_asc.gif"/>
               </tal:block>
               <tal:block condition="python:sort!='Den_danske_rodliste asc'">
-                <a i18n:translate="" tal:attributes="href string:${url}&sort=Den_danske_rodliste asc">Den_danske_r&oslash;dliste</a>
+                <a i18n:translate="" tal:attributes="href string:${url}&sort=Den_danske_rodliste asc">Den danske r&oslash;dliste</a>
                 <img src="misc_/Naaya/sort_desc.gif"/>
               </tal:block>
             </th>
