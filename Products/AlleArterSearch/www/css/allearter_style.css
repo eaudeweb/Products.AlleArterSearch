@@ -91,7 +91,7 @@ img.arrow.arrow-down:hover {
   border: none !important;
 }
 
-.search-results-table tr:hover {
+.search-results-table tr.parent:hover {
   background-color: #F0F5FB;
 }
 
