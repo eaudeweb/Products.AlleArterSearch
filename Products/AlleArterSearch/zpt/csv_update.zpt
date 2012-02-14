@@ -21,7 +21,12 @@
     <h2 i18n:translate="">Upload records as CSV</h2>
     <p i18n:translate="">Please upload a UTF-8 encoded CSV file.</p>
     <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="new_csv">
+        <label for="form-encoding" i18n:translate="">Encoding</label>
+        <select name="encoding">
+            <option name="latin-1">Latin-1</option>
+            <option name="utf-8">UTF-8</option>
+        </select><br>
+        <input type="file" name="new_csv"><br>
         <input type="submit" value="Upload"
                i18n:attributes="value">
     </form>

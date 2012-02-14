@@ -183,18 +183,9 @@ class AlleArterSearch(SimpleItem):
             field = '%s_dk' % field
         return record.get(field, None)
 
-    security.declareProtected(view, 'search')
-    def search(self, rows, request):
-        """ """
-        query_items = []
-
+    def _query_for_args(self, request):
         filters = request.form.get('filters', 'yes')
-        sort_on = request.get('sort', 'Videnskabeligt_navn asc')
-
-        try:
-            page = int(request.get('page', '1'))
-        except ValueError:
-            page = 1
+        query_items = []
 
         if filters == 'yes':
 
@@ -219,25 +210,35 @@ class AlleArterSearch(SimpleItem):
             if len(query_items) == 0:
                 query_items.append('Artsgruppe:*')
 
-            query = {'q': ' AND '.join(query_items),
-                    'fq': 'entity_type:records',
-                    'sort': sort_on,
-                    'rows': rows,
-                    'start':  (page-1)*self.items_per_page,
-                    'wt': 'json'}
+            return {'q': ' AND '.join(query_items),
+                    'fq': 'entity_type:records'}
 
         elif filters == 'no':
 
-            q = request.form.get('q', '').decode('utf-8')
-            query = {'fq': 'entity_type:records',
-                    'sort': sort_on,
-                    'rows': rows,
-                    'start':  (page-1)*self.items_per_page,
-                    'wt': 'json'}
-            if q:
-                query['q'] = ('text:"%s"' % solr_quote(q).lower()).encode('utf-8')
+            form_q = request.form.get('q', '').decode('utf-8')
+            if form_q:
+                q = ('text:"%s"' % solr_quote(form_q).lower()).encode('utf-8')
             else:
-                query['q'] = '*'
+                q = '*'
+
+            return {'fq': 'entity_type:records',
+                    'q': q}
+
+    security.declareProtected(view, 'search')
+    def search(self, rows, request):
+        """ """
+        try:
+            page = int(request.get('page', '1'))
+        except ValueError:
+            page = 1
+
+        query = self._query_for_args(request)
+        query.update({
+            'rows': rows,
+            'sort': request.get('sort', 'Videnskabeligt_navn asc'),
+            'start': (page-1)*self.items_per_page,
+            'wt': 'json',
+        })
 
         url = "%s/select/?%s" % (self.solr_connection, urlencode(query))
         log.debug('search: %s', url)
@@ -257,21 +258,22 @@ class AlleArterSearch(SimpleItem):
         """ """
         return FILTER_BY
 
-    def get_url(self, request):
+    def get_url_args(self, request):
         """ """
         qs = []
         for k, v in request.form.items():
             if k not in ['sort', 'page', '-C']:
                 qs.append('%s=%s' % (k,v))
-        return '%s?%s' % (self.absolute_url(), '&'.join(qs))
+        return '&'.join(qs)
 
     security.declareProtected(view, 'get_csv')
     def get_csv(self, REQUEST, RESPONSE):
         """ Download search results in CSV format """
-        query = {'fq': 'entity_type:records',
-                 'q': '*',
-                 'wt': 'csv',
-                 'rows': 10**6}
+        query = self._query_for_args(REQUEST)
+        query.update({
+            'wt': 'csv',
+            'rows': 10**6,
+        })
         url = "%s/select/?%s" % (self.solr_connection, urlencode(query))
         log.debug('csv dump: %s', url)
 
@@ -298,17 +300,26 @@ class AlleArterSearch(SimpleItem):
         if REQUEST.REQUEST_METHOD == 'GET':
             return self._csv_update_tmpl()
 
+        encoding = REQUEST.form['encoding']
+        def decode(txt):
+            if txt is None:
+                return None
+            else:
+                return txt.decode(encoding, 'replace')
+
         new_csv_file = REQUEST.form['new_csv']
         dialect = csv.Sniffer().sniff(new_csv_file.read(1024).splitlines()[0])
         new_csv_file.seek(0)
+
         new_csv = csv.DictReader(new_csv_file, dialect=dialect)
+        new_csv.fieldnames = [decode(v) for v in new_csv.reader.next()]
 
         solr = SolrInterface(self.solr_connection)
         facets = ManualFacets()
         solr.clear_db()
 
         for i, row in enumerate(new_csv):
-            record = dict((name, row.get(label, '')) for
+            record = dict((name, decode(row.get(label, ''))) for
                           name, label in schema.data_fields.items())
             facets.add(record)
             record.update({

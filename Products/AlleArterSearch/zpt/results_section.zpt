@@ -11,8 +11,15 @@
                     page python:request.get('page', '1');
                     records options/records;
                     fake_records options/fake_records;
-                    url python:here.get_url(request);
+                    url_args python: here.get_url_args(request);
+                    url python: '%s?%s' % (here.absolute_url(), url_args);
                     lang request/lang | string:en">
+
+<span class="buttons">
+    <a class="download_link"
+       tal:attributes="href string:${here/absolute_url}/get_csv?${url_args}"
+       i18n:translate="">CSV download</a>
+</span>
 
 <h1 i18n:translate="">
     Search database (<span i18n:name="records_number" tal:replace="python:len(fake_records)" /> records found)
