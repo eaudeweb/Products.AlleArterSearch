@@ -278,7 +278,7 @@ class AlleArterSearch(SimpleItem):
         fields = sorted(schema.data_fields.values())
         out_csv = csv.DictWriter(RESPONSE, fields, extrasaction='ignore')
 
-        out_csv.writerow(dict((k,k) for k in fields))
+        out_csv.writerow(dict((k, k.encode('utf-8')) for k in fields))
         for record in solr_csv:
             row = dict((label, record.get(name, '')) for
                        name, label in schema.data_fields.items())
