@@ -1,184 +1,169 @@
-$(function(){
-    $("select#ctlArtsgruppe").change(function(){
-        $("select#ctlRige").val('*');
-        $("select#ctlRaekke").val('*');
-        $("select#ctlKlasse").val('*');
-        $("select#ctlOrden").val('*');
-        $("select#ctlFamilie").val('*');
-    })
-})
+(function ($, app) {
+    var SearchForm = $.extend({}, app.BaseView, {
 
+        optionsTemplate: "\
+            <option value='*'>-all-</option>\
+            {{#data}}\
+                <option value='{{.}}'>{{.}}</option>\
+            {{/data}}\
+        ",
 
-$(function(){
-    $("select#ctlRige").change(function(){
-        $("select#ctlArtsgruppe").val('*');
-        var lang = $("input#ctlLang").val();
+        events: {
+            "change select#ctlArtsgruppe": "changeGruppe",
+            "change select#ctlRige": "changeRige",
+            "change select#ctlRaekke": "changeRaekke",
+            "change select#ctlKlasse": "changeKlasse",
+            "change select#ctlOrden": "changeOrden",
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Raekke', 'query_field': 'Rige'}, true);
-        $.getJSON("jsonFieldValues", params, function(j){
-            var options = '<option value="*">-all-' + '<'+'/option>';
-            for (var i = 0; i < j.length; i++) {
-                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
+            "click .record-details": "toggleRecordDetails"
+        },
+
+        _resetSelect: function (selector) {
+           // reset a specified select or all selects
+           var default_selector = "select#ctlRige, select#ctlFamilie, \
+                select#ctlRaekke, select#ctlKlasse, select#ctlOrden, \
+                select#ctlFamilie";
+           var selector = selector || default_selector;
+            $(selector).val("*");
+        },
+
+        _getJSON: function (params, selector) {
+            var self = this;
+            var json_request = $.getJSON("jsonFieldValues", params, function(data) {
+                var html = Mustache.to_html(self.optionsTemplate, {"data": data});
+                $(selector).html(html);
+                html = null;
+            });
+            return json_request
+        },
+
+        changeGruppe: function (e) {
+            // reset all selects when gruppe is change
+            this._resetSelect();
+        },
+
+        changeRige: function (e) {
+            this._resetSelect("select#ctlArtsgruppe");
+            var params = {
+                "query": $(e.currentTarget).val(),
+                "query_field": "Rige"
+            };
+
+            params["entity_type"] = "Raekke";
+            this._getJSON(params, "select#ctlRaekke");
+
+            params["entity_type"] = "Klasse"
+            this._getJSON(params, "select#ctlKlasse");
+
+            params["entity_type"] = "Orden"
+            this._getJSON(params, "select#ctlOrden");
+
+            params["entity_type"] = "Familie"
+            this._getJSON(params, "select#ctlFamilie");
+            params = null; // nullify, no leaks
+        },
+
+        changeRaekke: function (e) {
+            this._resetSelect("select#ctlArtsgruppe");
+            var params = {
+                "query": $(e.currentTarget).val(),
+                "query_field": "Raekke"
+            };
+
+            params["entity_type"] = "Klasse";
+            this._getJSON(params, "select#ctlKlasse");
+
+            params["entity_type"] = "Orden";
+            this._getJSON(params, "select#ctlOrden");
+
+            params["entity_type"] = "Familie";
+            this._getJSON(params, "select#ctlFamilie");
+            params = null; // nullify, no leaks
+        },
+
+        changeKlasse: function (e) {
+            this._resetSelect("select#ctlArtsgruppe");
+            var params = {
+                "query": $(e.currentTarget).val(),
+                "query_field": "Klasse"
+            };
+
+            params["entity_type"] = "Orden";
+            this._getJSON(params, "select#ctlOrden");
+
+            params["entity_type"] = "Familie";
+            this._getJSON(params, "select#ctlFamilie");
+
+            params = null; // nullify, no leaks
+        },
+
+        changeOrden: function (e) {
+            this._resetSelect("select#ctlArtsgruppe");
+            var params = {
+                "query": $(e.currentTarget).val(),
+                "query_field": "Orden"
+            };
+
+            params["entity_type"] = "Familie";
+            this._getJSON(params, "select#ctlFamilie");
+            params = null; // nullify, no leaks
+        },
+
+        /* flow
+        - when clicked on a record, check if the record has alreary details.
+        - if the record hasn't details, make an ajax call and fetch them.
+        - if the record has details, show the container.
+        - it the container is visible, hide it.
+        */
+        toggleRecordDetails: function (e) {
+            var record_id = $(e.currentTarget).data("record-index"),
+                record = $(sprintf("#rec_%s", record_id));
+
+            if(record.hasClass("toggle_off")) {
+                if(record.hasClass("has_details")) {
+                    this._showRecord(record_id, record);
+                } else {
+                    this._getDataAndShow(record_id, record);
+                }
+            } else {
+                this._hideRecord(record);
             }
-            $("select#ctlRaekke").html(options);
-        })
+             record = record_id = null; // nullify, no leaks
+        },
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Klasse', 'query_field': 'Rige'}, true);
-        $.getJSON("jsonFieldValues", params, function(j){
-            var options = '<option value="*">-all-' + '<'+'/option>';
-            for (var i = 0; i < j.length; i++) {
-                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
-            }
-            $("select#ctlKlasse").html(options);
-        })
+        _showRecord: function(record_id, record) {
+            // reset all
+            $("tr[id^=rec]").removeClass("toggle_on").addClass("toggle_off").hide();
+            $("img[id^=img_]'").removeClass("arrow-down").addClass("arrow-normal");
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Orden', 'query_field': 'Rige'}, true);
-        $.getJSON("jsonFieldValues", params, function(j){
-            var options = '<option value="*">-all-' + '<'+'/option>';
-            for (var i = 0; i < j.length; i++) {
-                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
-            }
-            $("select#ctlOrden").html(options);
-        })
+            // show record
+            record.removeClass("toggle_off").addClass("toggle_on").show();
+            $(sprintf("#img_%s", record_id)).addClass("arrow-down");
+        },
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Rige'}, true);
-        $.getJSON("jsonFieldValues", params, function(j){
-            var options = '<option value="*">-all-' + '<'+'/option>';
-            for (var i = 0; i < j.length; i++) {
-                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
-            }
-            $("select#ctlFamilie").html(options);
-        })
+        _hideRecord: function(record) {
+            // hide record
+            record.hide();
 
-    })
-})
+            // reset all
+            $("tr[id^=rec]").removeClass("toggle_on").addClass("toggle_off").hide();
+            $("img[id^=img_]").removeClass("arrow-down").addClass("arrow-normal");
+        },
 
-$(function(){
-    $("select#ctlRaekke").change(function(){
-        $("select#ctlArtsgruppe").val('*');
-        var lang = $("input#ctlLang").val();
+        _getDataAndShow: function(record_id, record) {
+            var self = this,
+                div = record.find("div"),
+                item_id = parseInt(div.attr("id"));
 
-        var params = $.param({'query': $(this).val(), 'entity_type':'Klasse', 'query_field': 'Raekke'}, true);
-        $.getJSON("jsonFieldValues", params, function(j){
-            var options = '<option value="*">-all-' + '<'+'/option>';
-            for (var i = 0; i < j.length; i++) {
-                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
-            }
-            $("select#ctlKlasse").html(options);
-        })
-
-        var params = $.param({'query': $(this).val(), 'entity_type':'Orden', 'query_field': 'Raekke'}, true);
-        $.getJSON("jsonFieldValues", params, function(j){
-            var options = '<option value="*">-all-' + '<'+'/option>';
-            for (var i = 0; i < j.length; i++) {
-                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
-            }
-            $("select#ctlOrden").html(options);
-        })
-
-        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Raekke'}, true);
-        $.getJSON("jsonFieldValues", params, function(j){
-            var options = '<option value="*">-all-' + '<'+'/option>';
-            for (var i = 0; i < j.length; i++) {
-                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
-            }
-            $("select#ctlFamilie").html(options);
-        })
-    })
-})
-
-
-$(function(){
-    $("select#ctlKlasse").change(function(){
-        $("select#ctlArtsgruppe").val('*');
-        var lang = $("input#ctlLang").val();
-
-        var params = $.param({'query': $(this).val(), 'entity_type':'Orden', 'query_field': 'Klasse'}, true);
-        $.getJSON("jsonFieldValues", params, function(j){
-            var options = '<option value="*">-all-' + '<'+'/option>';
-            for (var i = 0; i < j.length; i++) {
-                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
-            }
-            $("select#ctlOrden").html(options);
-        })
-
-        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Klasse'}, true);
-        $.getJSON("jsonFieldValues", params, function(j){
-            var options = '<option value="*">-all-' + '<'+'/option>';
-            for (var i = 0; i < j.length; i++) {
-                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
-            }
-            $("select#ctlFamilie").html(options);
-        })
-    })
-})
-
-$(function(){
-    $("select#ctlOrden").change(function(){
-        $("select#ctlArtsgruppe").val('*');
-        var lang = $("input#ctlLang").val();
-
-        var params = $.param({'query': $(this).val(), 'entity_type':'Familie', 'query_field': 'Orden'}, true);
-        $.getJSON("jsonFieldValues", params, function(j){
-            var options = '<option value="*">-all-' + '<'+'/option>';
-            for (var i = 0; i < j.length; i++) {
-                options += '<option value="' + j[i] + '">' + j[i] + '<'+'/option>';
-            }
-            $("select#ctlFamilie").html(options);
-        })
-    })
-})
-
-function toggle(record_id) {
-    var collection = $('#rec_'+record_id);
-    if (collection.hasClass('toggle_off')) {
-        if (collection.hasClass('has_details')) {
-            show_record(record_id);
-        } else {
-            get_data_and_show(record_id);
+            $.get("record_details", { "id": item_id }, function(data) {
+                div.html(data);
+                record.addClass('has_details');
+                self._showRecord(record_id, record);
+                record = div = null;
+            });
+            item_id = null; // nullify, no leaks
         }
-    } else {
-        hide_record(record_id);
-    }
-}
-
-function get_data_and_show(record_id) {
-    var div = $('#rec_'+record_id + ' div');
-    var item_id = div.attr('id');
-    $.get("record_details", {id: parseInt(item_id)},
-    function(data) {
-        div.html(data);
-        $('#rec_'+record_id).addClass('has_details');
-        show_record(record_id);
     });
-}
-
-function show_record(record_id) {
-    // reset all
-    $('tr[id^="rec"]').removeClass('toggle_on');
-    $('tr[id^="rec"]').addClass('toggle_off');
-    $('img[id^="img_"]').removeClass('arrow-down');
-    $('img[id^="img_"]').addClass('arrow-normal');
-    $('tr[id^="rec"]').hide();
-
-    // show record
-    $('#rec_'+record_id).show();
-    var div = $('#rec_'+record_id + ' div');
-    var item_id = div.attr('id');
-
-    $('#img_' + record_id).addClass('arrow-down');
-    $('#rec_'+record_id).removeClass('toggle_off');
-    $('#rec_'+record_id).addClass('toggle_on');
-}
-
-function hide_record(record_id) {
-    // hide record
-    $('#rec_'+record_id).hide();
-
-    // reset all
-    $('tr[id^="rec"]').removeClass('toggle_on');
-    $('tr[id^="rec"]').addClass('toggle_off');
-    $('img[id^="img_"]').removeClass('arrow-down');
-    $('img[id^="img_"]').addClass('arrow-normal');
-    $('tr[id^="rec"]').hide();
-}
+    // bind the events after document.ready
+    $(function () { SearchForm.init(); });
+})(jQuery_171, AllearterApp);

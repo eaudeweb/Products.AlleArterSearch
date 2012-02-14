@@ -1,0 +1,9 @@
+<configure xmlns='http://namespaces.zope.org/zope'
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+<browser:resourceDirectory
+    name="Products.AlleArterSearch"
+    directory="www"
+    />
+
+</configure>

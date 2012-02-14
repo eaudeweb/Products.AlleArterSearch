@@ -5,8 +5,18 @@
 </metal:block>
 
 <metal:block metal:fill-slot="head">
-    <link rel="stylesheet" type="text/css" media="screen" tal:attributes="href string:/misc_/AlleArterSearch/allearter_style.css" />
-    <script src="/misc_/AlleArterSearch/allearter.js"></script>
+    <link rel="stylesheet" type="text/css" media="screen" tal:attributes="href string:/++resource++Products.AlleArterSearch/css/allearter_style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script>
+        var jQuery_171 = $.noConflict(true),
+            AllearterApp = {}; // global namspace
+    </script>
+
+
+    <script src="/++resource++Products.AlleArterSearch/js/lib/sprintf.js"></script>
+    <script src="/++resource++Products.AlleArterSearch/js/lib/mustache.js"></script>
+    <script src="/++resource++Products.AlleArterSearch/js/base.js"></script>
+    <script src="/++resource++Products.AlleArterSearch/js/allearter.js"></script>
 </metal:block>
 
 

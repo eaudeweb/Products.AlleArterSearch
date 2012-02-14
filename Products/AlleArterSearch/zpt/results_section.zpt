@@ -103,11 +103,12 @@
         <tal:block repeat="record records">
         <tr tal:attributes="class python:test(path('repeat/record/odd'), 'parent row-even', 'parent row-odd')">
             <td>
-              <img src="misc_/AlleArterSearch/s.gif" alt="" title="" class="arrow arrow-normal"
-                   tal:attributes="onclick string:javascript:toggle('${repeat/record/index}');
-                                  id string:img_${repeat/record/index}"/>
-                <a tal:content="record/Videnskabeligt_navn | nothing" href="javascript:void(0);"
-                    tal:attributes="onclick string:javascript:toggle('${repeat/record/index}')"></a>
+              <img src="misc_/AlleArterSearch/s.gif" alt="" title=""
+                   class="arrow arrow-normal record-details"
+                   tal:attributes="data-record-index string:${repeat/record/index};
+                                   id string:img_${repeat/record/index}"/>
+                <a tal:content="record/Videnskabeligt_navn | nothing" class="record-details"
+                   tal:attributes="data-record-index string:${repeat/record/index}"></a>
             </td>
             <td tal:content="python:here.get_field(record, 'Orden', lang)" />
             <td tal:content="python:here.get_field(record, 'Familie', lang)" />
