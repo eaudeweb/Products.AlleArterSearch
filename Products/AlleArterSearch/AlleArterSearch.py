@@ -193,7 +193,7 @@ class AlleArterSearch(SimpleItem):
                         query_items.append("%s:*" % qt)
                     else:
                         query_items.append('%s:"%s"' % (qt, qv))
-                if qt == 'Filter':
+                if qt == 'Filter' and '__all__' not in qv:
                     filter_items = []
                     for q in qv:
                         if q in FILTER_BY:

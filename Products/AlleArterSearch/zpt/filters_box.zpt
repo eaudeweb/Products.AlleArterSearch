@@ -117,6 +117,7 @@
         <div class="field">
             <label for="ctlFilter" i18n:translate="">Filter by</label>
             <select name="Filter:list" class="search_box multiple" id="ctlFilter" multiple="multiple">
+                <option value="__all__">--</option>
                 <option tal:repeat="record here/get_filters"
                         tal:attributes="value record; selected python:record in Filter; title record"
                         tal:content="record" />
