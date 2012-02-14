@@ -289,7 +289,7 @@ class AlleArterSearch(SimpleItem):
         solr.close()
 
     _csv_update_tmpl = PageTemplateFile('zpt/csv_update.zpt', globals())
-    security.declareProtected(view_management_screens, 'get_csv')
+    security.declareProtected(view_management_screens, 'csv_update')
     def csv_update(self, REQUEST):
         """ Update the solr data with an uploaded csv """
 
