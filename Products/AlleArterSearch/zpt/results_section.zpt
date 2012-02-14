@@ -17,10 +17,10 @@
 
 <h1 i18n:translate="">
     Search database (<span i18n:name="records_number" tal:replace="python:len(fake_records)" /> records found)
-    <a class="download_link"
-       tal:attributes="href string:${here/absolute_url}/get_csv?${url_args}"
-       i18n:translate="">(download CSV)</a>
 </h1>
+<a class="download_link"
+   tal:attributes="href string:${here/absolute_url}/get_csv?${url_args}"
+   i18n:translate="">download CSV</a>
 <table class="datatable search-results-table" tal:condition="records">
     <thead>
         <tr>
