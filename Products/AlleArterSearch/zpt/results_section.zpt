@@ -31,7 +31,8 @@
               </tal:block>
               <tal:block condition="python:sort!='Videnskabeligt_navn asc'">
                 <a i18n:translate="" tal:attributes="href string:${url}&sort=Videnskabeligt_navn asc">Videnskabeligt_navn</a>
-                <img src="misc_/Naaya/sort_desc.gif"/>
+                <img src="misc_/Naaya/sort_desc.gif"
+                     tal:condition="python:sort=='Videnskabeligt_navn desc'"/>
               </tal:block>
             </th>
             <th>
@@ -41,7 +42,8 @@
               </tal:block>
               <tal:block condition="python:sort!='Orden asc'">
                 <a i18n:translate="" tal:attributes="href string:${url}&sort=Orden asc">Orden</a>
-                <img src="misc_/Naaya/sort_desc.gif"/>
+                <img src="misc_/Naaya/sort_desc.gif"
+                     tal:condition="python:sort=='Orden desc'"/>
               </tal:block>
             </th>
             <th>
@@ -51,7 +53,8 @@
               </tal:block>
               <tal:block condition="python:sort!='Familie asc'">
                 <a i18n:translate="" tal:attributes="href string:${url}&sort=Familie asc">Familie</a>
-                <img src="misc_/Naaya/sort_desc.gif"/>
+                <img src="misc_/Naaya/sort_desc.gif"
+                     tal:condition="python:sort=='Familie desc'"/>
               </tal:block>
             </th>
             <th>
@@ -61,7 +64,8 @@
               </tal:block>
               <tal:block condition="python:sort!='Autor asc'">
                 <a i18n:translate="" tal:attributes="href string:${url}&sort=Autor asc">Autor</a>
-                <img src="misc_/Naaya/sort_desc.gif"/>
+                <img src="misc_/Naaya/sort_desc.gif"
+                     tal:condition="python:sort=='Autor desc'"/>
               </tal:block>
             </th>
             <th width="10%">
@@ -71,7 +75,8 @@
               </tal:block>
               <tal:block condition="python:sort!='Dansk_navn asc'">
                 <a i18n:translate="" tal:attributes="href string:${url}&sort=Dansk_navn asc">Dansk navn</a>
-                <img src="misc_/Naaya/sort_desc.gif"/>
+                <img src="misc_/Naaya/sort_desc.gif"
+                     tal:condition="python:sort=='Dansk_navn desc'"/>
               </tal:block>
             </th>
             <th width="10%">
@@ -81,7 +86,8 @@
               </tal:block>
               <tal:block condition="python:sort!='Fredede_arter asc'">
                 <a i18n:translate="" tal:attributes="href string:${url}&sort=Fredede_arter asc">Fredede arter</a>
-                <img src="misc_/Naaya/sort_desc.gif"/>
+                <img src="misc_/Naaya/sort_desc.gif"
+                     tal:condition="python:sort=='Fredede_arter desc'"/>
               </tal:block>
             </th>
             <th width="10%">
@@ -91,7 +97,8 @@
               </tal:block>
               <tal:block condition="python:sort!='Den_danske_rodliste asc'">
                 <a i18n:translate="" tal:attributes="href string:${url}&sort=Den_danske_rodliste asc">Den danske r&oslash;dliste</a>
-                <img src="misc_/Naaya/sort_desc.gif"/>
+                <img src="misc_/Naaya/sort_desc.gif"
+                     tal:condition="python:sort=='Den_danske_rodliste desc'"/>
               </tal:block>
             </th>
         </tr>
