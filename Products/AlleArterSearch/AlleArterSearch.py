@@ -5,7 +5,6 @@ except ImportError:
     import simplejson as json
 
 import urllib2
-from urllib2 import urlopen
 from urllib import urlencode
 import re
 import logging
@@ -88,11 +87,13 @@ class AlleArterSearch(SimpleItem):
     def index_html(self, REQUEST=None):
         """ """
 
-        if not self.get_solr_status():
+        try:
+            records, records_found = self.search(rows=self.items_per_page,
+                                                 request=REQUEST)
+        except SolrError:
+            records = []
+            records_found = 0
             self.setSessionErrorsTrans('Database error (Solr does not respond)!')
-
-        records, records_found = self.search(rows = self.items_per_page,
-                                                      request = REQUEST)
 
         return self._index_html(REQUEST,
                                 records = records,
@@ -116,16 +117,6 @@ class AlleArterSearch(SimpleItem):
         self._p_changed = 1
         if REQUEST: REQUEST.RESPONSE.redirect('manage_edit_html?save=ok')
 
-    security.declarePrivate('get_solr_status')
-    def get_solr_status(self):
-        """ """
-        try:
-            conn = urlopen('%s/dataimport?command=status&wt=json' % self.solr_connection)
-            result = json.load(conn)
-            return result['responseHeader']['status'] == 0
-        except:
-            return False
-
     security.declarePrivate('get_field_values')
     def get_field_values(self, query, entity_type, query_field=None, lang='en'):
         """ """
@@ -144,10 +135,13 @@ class AlleArterSearch(SimpleItem):
                 'wt': 'json',
                 'rows': 32000}
 
-        url = u"%s/select/?%s" % (self.solr_connection, urlencode(query))
-        log.debug('get_field_values: %s', url)
-        conn = urlopen(url)
+        url = "/select/?" + urlencode(query)
+        try:
+            conn = SolrInterface(self.solr_connection).get(url)
+        except SolrError:
+            return []
         result = json.load(conn)
+        conn.close()
 
         return [ r[record].encode('utf-8') for r in result['response']['docs'] ]
 
@@ -240,18 +234,19 @@ class AlleArterSearch(SimpleItem):
             'wt': 'json',
         })
 
-        url = "%s/select/?%s" % (self.solr_connection, urlencode(query))
-        log.debug('search: %s', url)
-        conn = urlopen(url)
+        url = "/select/?" + urlencode(query)
+        conn = SolrInterface(self.solr_connection).get(url)
         result = json.load(conn)
+        conn.close()
+
         return result['response']['docs'], result['response']['numFound']
 
     def get_record_details(self, id):
         """ """
-        url = "%s/select/?q=%s&wt=json" % (self.solr_connection, id)
-        log.debug('get_record_details: %s', url)
-        conn = urlopen(url)
+        url = "/select/?q=%s&wt=json" % id
+        conn = SolrInterface(self.solr_connection).get(url)
         result = json.load(conn)
+        conn.close()
         return result['response']['docs'][0]
 
     def get_filters(self):
@@ -274,10 +269,9 @@ class AlleArterSearch(SimpleItem):
             'wt': 'csv',
             'rows': 10**6,
         })
-        url = "%s/select/?%s" % (self.solr_connection, urlencode(query))
-        log.debug('csv dump: %s', url)
 
-        solr = urlopen(url)
+        url = "/select/?" + urlencode(query)
+        solr = SolrInterface(self.solr_connection).get(url)
         solr_csv = csv.DictReader(solr)
 
         RESPONSE.setHeader('Content-Type', 'text/csv')
@@ -402,6 +396,10 @@ class ManualFacets(object):
             yield dict(record, id='facet-%d' % i)
 
 
+class SolrError(Exception):
+    """ Error talking to Solr """
+
+
 class SolrInterface(object):
 
     AUTOFLUSH_SIZE = 1000
@@ -436,6 +434,10 @@ class SolrInterface(object):
         response.read()
         response.close()
 
+    def get(self, relative_url):
+        url = self.solr_url + relative_url
+        return self._solr_http(url)
+
     def _solr_http(self, request):
         if isinstance(request, urllib2.Request):
             url = request.get_full_url()
@@ -447,9 +449,6 @@ class SolrInterface(object):
         try:
             response = urllib2.urlopen(request)
         except urllib2.URLError, e:
-            if hasattr(e, 'reason') and e.reason.errno == errno.ECONNREFUSED:
-                raise StorageError("Error connecting to Solr")
-            else:
-                raise
+            raise SolrError("Error connecting to Solr")
 
         return response
