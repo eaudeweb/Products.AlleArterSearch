@@ -102,7 +102,7 @@
     <tbody>
         <tal:block repeat="record records">
         <tr class="parent">
-            <td>
+            <td width="25%">
               <img src="misc_/AlleArterSearch/s.gif" alt="" title=""
                    class="arrow arrow-normal record-details"
                    tal:attributes="data-record-index string:${repeat/record/index};

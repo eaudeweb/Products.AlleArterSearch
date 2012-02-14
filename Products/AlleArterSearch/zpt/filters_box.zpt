@@ -47,10 +47,10 @@
                 search after
                 <a i18n:name="language-names"
                    tal:attributes="href string:${here/absolute_url}?lang=dk" 
-                   tal:condition="python:lang == 'en'" i18n:translate="">danish names</a>
+                   tal:condition="python:lang == 'en'" i18n:translate="">Danish names</a>
                 <a i18n:name="language-names"
                    tal:attributes="href string:${here/absolute_url}?lang=en"
-                   tal:condition="python:lang != 'en'" i18n:translate="">latin names</a>
+                   tal:condition="python:lang != 'en'" i18n:translate="">Latin names</a>
             </div>
         </div>
         <hr />
@@ -128,7 +128,7 @@
             <input type="hidden" name="lang" id="ctlLang" tal:attributes="value lang" />
             <input type="hidden" name="filters" id="ctlFilters" tal:attributes="value filters" />
             <input type="submit" name="search" i18n:attributes="value" value="Search" />
-            <a tal:attributes="href here/absolute_url" i18n:translate="">clear filters</a>
+            <a tal:attributes="href string:${here/absolute_url}?lang=${lang}" i18n:translate="">clear filters</a>
         </div>
     </form>
     <hr />
