@@ -35,7 +35,7 @@
 }
 
 img.arrow {
-  background: url('arrows.gif') no-repeat scroll 0 0;
+  background: url('../arrows.gif') no-repeat scroll 0 0;
   width: 16px;
   height: 18px;
 }
