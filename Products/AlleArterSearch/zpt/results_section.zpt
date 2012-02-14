@@ -101,7 +101,7 @@
     </thead>
     <tbody>
         <tal:block repeat="record records">
-        <tr tal:attributes="class python:test(path('repeat/record/odd'), 'parent row-even', 'parent row-odd')">
+        <tr class="parent">
             <td>
               <img src="misc_/AlleArterSearch/s.gif" alt="" title=""
                    class="arrow arrow-normal record-details"
