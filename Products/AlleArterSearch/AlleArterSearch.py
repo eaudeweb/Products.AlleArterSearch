@@ -275,6 +275,8 @@ class AlleArterSearch(SimpleItem):
         solr_csv = csv.DictReader(solr)
 
         RESPONSE.setHeader('Content-Type', 'text/csv')
+        RESPONSE.setHeader('Content-Disposition',
+                           'attachment;filename=records.csv')
         fields = sorted(schema.data_fields.values())
         out_csv = csv.DictWriter(RESPONSE, fields, extrasaction='ignore')
 
