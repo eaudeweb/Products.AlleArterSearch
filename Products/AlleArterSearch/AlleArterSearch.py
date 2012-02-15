@@ -198,8 +198,8 @@ class AlleArterSearch(SimpleItem):
                     for q in qv:
                         if q in FILTER_BY:
                             filter_items.append("%s:['' TO *]" % q)
-                    filters = ' OR '.join(filter_items)
-                    query_items.append('(%s)' % filters)
+                    if filter_items:
+                        query_items.append('(%s)' % (' OR '.join(filter_items)))
 
             if len(query_items) == 0:
                 query_items.append('Artsgruppe:*')
