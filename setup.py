@@ -10,5 +10,6 @@ setup(name='Products.AlleArterSearch',
     zip_safe=False,
     install_requires=[
         'simplejson',
+        'xlwt',
     ]
 )

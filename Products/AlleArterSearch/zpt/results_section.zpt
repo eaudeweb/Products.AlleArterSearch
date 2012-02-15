@@ -18,9 +18,19 @@
 <h1 i18n:translate="">
     Search database (<span i18n:name="records_number" tal:replace="python:len(fake_records)" /> records found)
 </h1>
-<a class="download_link"
-   tal:attributes="href string:${here/absolute_url}/get_csv?${url_args}"
-   i18n:translate="">download CSV</a>
+
+<tal:block define="download_url string:${here/absolute_url}/export_records">
+
+  <a class="download_link"
+     tal:attributes="href string:${download_url}?${url_args}"
+     i18n:translate="">Download CSV</a>,
+
+  <a class="download_link"
+     tal:attributes="href string:${download_url}?fmt=xls&${url_args}"
+     i18n:translate="">Download Excel</a>
+
+</tal:block>
+
 <table class="datatable search-results-table" tal:condition="records">
     <thead>
         <tr>

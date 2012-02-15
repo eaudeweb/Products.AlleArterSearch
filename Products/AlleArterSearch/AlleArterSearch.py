@@ -9,9 +9,12 @@ from urllib import urlencode
 import re
 import logging
 import csv
+from cStringIO import StringIO
 
+import xlwt
 from OFS.SimpleItem import SimpleItem
 from App.class_init import InitializeClass
+from App.config import getConfiguration
 from AccessControl.SecurityInfo import ClassSecurityInfo
 from AccessControl.Permissions import view_management_screens, view
 from Products.PageTemplates.PageTemplateFile import PageTemplateFile
@@ -19,6 +22,10 @@ import schema
 
 
 log = logging.getLogger(__name__)
+
+
+ENABLE_XLS_DOWNLOAD = getConfiguration().environment.get(
+    'ALLEARTER_ENABLE_XLS_DOWNLOAD', '')
 
 
 manage_add_html = PageTemplateFile('zpt/manage_add', globals())
@@ -261,30 +268,47 @@ class AlleArterSearch(SimpleItem):
                 qs.append('%s=%s' % (k,v))
         return '&'.join(qs)
 
-    security.declareProtected(view, 'get_csv')
-    def get_csv(self, REQUEST, RESPONSE):
+    security.declareProtected(view, 'export_records')
+    def export_records(self, REQUEST, RESPONSE):
         """ Download search results in CSV format """
         query = self._query_for_args(REQUEST)
         query.update({
             'wt': 'csv',
             'rows': 10**6,
         })
+        fmt = REQUEST.form.get('fmt', 'csv')
 
         url = "/select/?" + urlencode(query)
         solr = SolrInterface(self.solr_connection).get(url)
         solr_csv = csv.DictReader(solr)
-
-        RESPONSE.setHeader('Content-Type', 'text/csv')
-        RESPONSE.setHeader('Content-Disposition',
-                           'attachment;filename=records.csv')
         fields = sorted(schema.data_fields.values())
-        out_csv = csv.DictWriter(RESPONSE, fields, extrasaction='ignore')
 
-        out_csv.writerow(dict((k, k.encode('utf-8')) for k in fields))
-        for record in solr_csv:
-            row = dict((label, record.get(name, '')) for
-                       name, label in schema.data_fields.items())
-            out_csv.writerow(row)
+        if fmt == 'xls':
+            if not ENABLE_XLS_DOWNLOAD:
+                return "Excel download is disabled"
+            _data_fields_rev = dict((v, k) for k, v in schema.data_fields.items())
+            names = [_data_fields_rev[label] for label in fields]
+            def rows():
+                for record in solr_csv:
+                    yield [record.get(name, '') for name in names]
+
+            xls_content = generate_excel(fields, rows())
+            RESPONSE.setHeader('Content-Type', 'application/vnd.ms-excel')
+            RESPONSE.setHeader('Content-Disposition',
+                               'attachment; filename=records.xls')
+            return xls_content
+
+        else:
+            RESPONSE.setHeader('Content-Type', 'text/csv')
+            RESPONSE.setHeader('Content-Disposition',
+                               'attachment;filename=records.csv')
+            out_csv = csv.DictWriter(RESPONSE, fields, extrasaction='ignore')
+
+            out_csv.writerow(dict((k, k.encode('utf-8')) for k in fields))
+            for record in solr_csv:
+                row = dict((label, record.get(name, '')) for
+                           name, label in schema.data_fields.items())
+                out_csv.writerow(row)
 
         solr.close()
 
@@ -460,3 +484,24 @@ class SolrInterface(object):
             raise SolrError("Error connecting to Solr")
 
         return response
+
+def generate_excel(header, rows):
+    style = xlwt.XFStyle()
+    normalfont = xlwt.Font()
+    headerfont = xlwt.Font()
+    headerfont.bold = True
+    style.font = headerfont
+
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Sheet 1')
+    row = 0
+    for col in range(0, len(header)):
+        ws.row(row).set_cell_text(col, header[col], style)
+    style.font = normalfont
+    for item in rows:
+        row += 1
+        for col in range(0, len(item)):
+            ws.row(row).set_cell_text(col, item[col], style)
+    output = StringIO()
+    wb.save(output)
+    return output.getvalue()
