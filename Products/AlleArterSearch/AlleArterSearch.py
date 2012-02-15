@@ -303,6 +303,12 @@ class AlleArterSearch(SimpleItem):
             else:
                 return txt.decode(encoding, 'replace')
 
+        def clean(value):
+            if value is None:
+                return None
+            else:
+                return value.strip(u'\x95')
+
         new_csv_file = REQUEST.form['new_csv']
         dialect = csv.Sniffer().sniff(new_csv_file.read(1024).splitlines()[0])
         new_csv_file.seek(0)
@@ -315,7 +321,7 @@ class AlleArterSearch(SimpleItem):
         solr.clear_db()
 
         for i, row in enumerate(new_csv):
-            record = dict((name, decode(row.get(label, ''))) for
+            record = dict((name, clean(decode(row.get(label, '')))) for
                           name, label in schema.data_fields.items())
             facets.add(record)
             record.update({
