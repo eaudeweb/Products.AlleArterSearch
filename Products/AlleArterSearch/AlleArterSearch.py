@@ -265,7 +265,10 @@ class AlleArterSearch(SimpleItem):
         qs = []
         for k, v in request.form.items():
             if k not in ['sort', 'page', '-C']:
-                qs.append('%s=%s' % (k,v))
+                if isinstance(v, list):
+                    qs.extend('%s:list=%s' % (k,vx) for vx in v)
+                else:
+                    qs.append('%s=%s' % (k,v))
         return '&'.join(qs)
 
     security.declareProtected(view, 'export_records')
