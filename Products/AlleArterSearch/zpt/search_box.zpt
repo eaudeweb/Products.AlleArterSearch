@@ -14,9 +14,10 @@
   </div>
   
   <form action="" name="frmSearch" method="get" id="frmSearch">
-    <div class="field">
+    <div class="field" tal:define="sort request/sort | string:">
         <input type="text" name="q" tal:attributes="value request/q | string:" />
         <input type="hidden" name="filters" tal:attributes="value filters" />
+        <input type="hidden" name="sort" tal:attributes="value sort" />
         <input type="submit" name="search" i18n:attributes="value" value="Search" />
         <a tal:attributes="href string:${here/absolute_url}?filters=no" i18n:translate="">clear</a>
     </div>

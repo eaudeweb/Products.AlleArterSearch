@@ -6,6 +6,7 @@
                     Orden request/Orden | string:*;
                     Familie request/Familie | string:*;
                     Filter request/Filter | string:;
+                    sort request/sort | string:;
                     lang request/lang | string:en">
 
 <div class="group">
@@ -128,6 +129,7 @@
         <div class="field">
             <input type="hidden" name="lang" id="ctlLang" tal:attributes="value lang" />
             <input type="hidden" name="filters" id="ctlFilters" tal:attributes="value filters" />
+            <input type="hidden" name="sort" id="ctlSort" tal:attributes="value sort" />
             <input type="submit" name="search" i18n:attributes="value" value="Search" />
             <a tal:attributes="href string:${here/absolute_url}?lang=${lang}" i18n:translate="">clear filters</a>
         </div>
